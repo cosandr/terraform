@@ -1,4 +1,4 @@
-module "pg" {
+module "prometheus" {
   source = "./modules/vm_from_tmpl"
 
   datacenter_id    = "${data.vsphere_datacenter.dc.id}"
@@ -12,10 +12,10 @@ module "pg" {
   memory = 4096
 
   count      = 1
-  name       = format("%s%02s", "pg", count.index + 1)
+  name       = format("%s%02s", "prom", count.index + 1)
   folder     = "Backend"
-  ip_address = 10 + count.index + 1
+  ip_address = 20 + count.index + 1
 
   data_disks     = 1
-  data_disk_size = 20
+  data_disk_size = 100
 }
