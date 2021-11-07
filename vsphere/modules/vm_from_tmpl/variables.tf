@@ -54,3 +54,8 @@ variable "memory" {
   type = number
   default = 4096
 }
+
+variable "tags" {
+  default = null
+  description = "Optional list of tag IDs to apply"
+}

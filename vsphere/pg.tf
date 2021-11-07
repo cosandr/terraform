@@ -1,3 +1,9 @@
+resource "vsphere_tag" "pg" {
+  name        = "pg"
+  category_id = "${vsphere_tag_category.ansible_group.id}"
+  description = "PostgreSQL servers"
+}
+
 module "pg" {
   source = "./modules/vm_from_tmpl"
 
@@ -14,6 +20,7 @@ module "pg" {
   count      = 1
   name       = format("%s%02s", "pg", count.index + 1)
   folder     = "Backend"
+  tags       = ["${vsphere_tag.pg.id}"]
   ip_address = 10 + count.index + 1
 
   data_disks     = 1

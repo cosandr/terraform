@@ -1,3 +1,9 @@
+resource "vsphere_tag" "prometheus" {
+  name        = "prometheus"
+  category_id = "${vsphere_tag_category.ansible_group.id}"
+  description = "Prometheus servers"
+}
+
 module "prometheus" {
   source = "./modules/vm_from_tmpl"
 
@@ -14,6 +20,7 @@ module "prometheus" {
   count      = 1
   name       = format("%s%02s", "prom", count.index + 1)
   folder     = "Backend"
+  tags       = ["${vsphere_tag.prometheus.id}"]
   ip_address = 20 + count.index + 1
 
   data_disks     = 1

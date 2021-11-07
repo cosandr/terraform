@@ -14,6 +14,7 @@ resource "vsphere_virtual_machine" "vm" {
   guest_id             = "${data.vsphere_virtual_machine.template.guest_id}"
   firmware             = "${data.vsphere_virtual_machine.template.firmware}"
   folder               = "${var.folder}"
+  tags                 = "${var.tags}"
 
   scsi_type            = "${data.vsphere_virtual_machine.template.scsi_type}"
 
@@ -50,14 +51,14 @@ resource "vsphere_virtual_machine" "vm" {
       }
 
       network_interface {
-        ipv4_address = cidrhost(var.vm_net, var.ip_address)
-        ipv4_netmask = split("/", var.vm_net)[1]
+        ipv4_address = cidrhost("${var.vm_net}", "${var.ip_address}")
+        ipv4_netmask = split("/", "${var.vm_net}")[1]
       }
 
-      ipv4_gateway = cidrhost(var.vm_net, 1)
+      ipv4_gateway = cidrhost("${var.vm_net}", 1)
 
       dns_server_list = [
-        cidrhost(var.vm_net, 1),
+        cidrhost("${var.vm_net}", 1),
         "1.1.1.1",
         "8.8.8.8"
       ]
