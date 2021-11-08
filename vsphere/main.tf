@@ -5,6 +5,7 @@ terraform {
       version = "~> 2.0"
     }
   }
+  backend "pg" {}
 }
 
 provider "vsphere" {
