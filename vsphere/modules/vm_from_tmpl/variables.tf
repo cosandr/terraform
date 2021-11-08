@@ -55,6 +55,11 @@ variable "memory" {
   default = 4096
 }
 
+variable "os_disk_size" {
+  type = number
+  default = null
+}
+
 variable "tags" {
   default = null
   description = "Optional list of tag IDs to apply"

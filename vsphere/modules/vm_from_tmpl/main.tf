@@ -25,7 +25,7 @@ resource "vsphere_virtual_machine" "vm" {
 
   disk {
     label            = "os01"
-    size             = "${data.vsphere_virtual_machine.template.disks.0.size}"
+    size             = var.os_disk_size != null ? var.os_disk_size : "${data.vsphere_virtual_machine.template.disks.0.size}"
     eagerly_scrub    = "${data.vsphere_virtual_machine.template.disks.0.eagerly_scrub}"
     thin_provisioned = "${data.vsphere_virtual_machine.template.disks.0.thin_provisioned}"
   }
