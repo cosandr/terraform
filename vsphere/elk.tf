@@ -45,7 +45,7 @@ module "elasticsearch" {
   data_disk_size = 50
 }
 
-module "lk" {
+module "logkib" {
   source = "./modules/vm_from_tmpl"
 
   datacenter_id    = "${data.vsphere_datacenter.home.id}"
@@ -58,7 +58,7 @@ module "lk" {
   cores  = 4
   memory = 8192
 
-  name       = "lk01"
+  name       = "logkib01"
   folder     = "ELK"
   tags       = ["${vsphere_tag.logstash.id}", "${vsphere_tag.kibana.id}"]
   ip_address = 30
