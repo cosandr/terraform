@@ -16,21 +16,21 @@ provider "vsphere" {
   allow_unverified_ssl = true
 }
 
-data "vsphere_datacenter" "dc" {
+data "vsphere_datacenter" "home" {
   name = "Home"
 }
 
 data "vsphere_datastore" "tn_ssd" {
   name          = "TrueNAS-SSD"
-  datacenter_id = data.vsphere_datacenter.dc.id
+  datacenter_id = data.vsphere_datacenter.home.id
 }
 
-data "vsphere_resource_pool" "slb" {
-  name          = "10.0.100.5/Resources"
-  datacenter_id = data.vsphere_datacenter.dc.id
+data "vsphere_resource_pool" "home" {
+  name          = "Home/Resources"
+  datacenter_id = data.vsphere_datacenter.home.id
 }
 
 data "vsphere_network" "vlan10" {
   name          = "VLAN10"
-  datacenter_id = data.vsphere_datacenter.dc.id
+  datacenter_id = data.vsphere_datacenter.home.id
 }
