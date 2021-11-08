@@ -2,7 +2,8 @@ resource "vsphere_folder" "folder" {
   for_each = toset([
     "Permanent",
     "templates",
-    "Backend"
+    "Backend",
+    "Windows"
   ])
   path          = each.key
   type          = "vm"
