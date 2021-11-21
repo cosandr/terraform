@@ -20,8 +20,8 @@ data "vsphere_datacenter" "home" {
   name = "Home"
 }
 
-data "vsphere_datastore" "tn_ssd" {
-  name          = "TrueNAS-SSD"
+data "vsphere_datastore" "vm" {
+  name          = "TrueNAS-VM"
   datacenter_id = data.vsphere_datacenter.home.id
 }
 
