@@ -30,7 +30,7 @@ data "vsphere_resource_pool" "home" {
   datacenter_id = data.vsphere_datacenter.home.id
 }
 
-data "vsphere_network" "vlan10" {
-  name          = "VLAN10"
+data "vsphere_network" "vm" {
+  name          = "VM"
   datacenter_id = data.vsphere_datacenter.home.id
 }

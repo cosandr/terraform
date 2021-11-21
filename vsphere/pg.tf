@@ -9,7 +9,7 @@ module "pg" {
 
   datacenter_id    = "${data.vsphere_datacenter.home.id}"
   datastore_id     = "${data.vsphere_datastore.tn_ssd.id}"
-  network_id       = "${data.vsphere_network.vlan10.id}"
+  network_id       = "${data.vsphere_network.vm.id}"
   resource_pool_id = "${data.vsphere_resource_pool.home.id}"
   template_name    = "templates/rocky_packer"
   vm_net           = "${var.vm_net_space}"
