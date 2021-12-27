@@ -1,22 +1,3 @@
-variable "esxi_hosts" {
-  default = [
-    "10.0.100.5",
-  ]
-}
-
-variable "network_interfaces" {
-  default = [
-    "vmnic0",
-    "vmnic1",
-  ]
-}
-
-data "vsphere_host" "host" {
-  count         = "${length(var.esxi_hosts)}"
-  name          = "${var.esxi_hosts[count.index]}"
-  datacenter_id = "${data.vsphere_datacenter.home.id}"
-}
-
 resource "vsphere_distributed_virtual_switch" "dvs" {
   name          = "DSwitch"
   datacenter_id = "${data.vsphere_datacenter.home.id}"
@@ -27,7 +8,7 @@ resource "vsphere_distributed_virtual_switch" "dvs" {
 
   host {
     host_system_id = "${data.vsphere_host.host.0.id}"
-    devices        = "${var.network_interfaces}"
+    devices        = "${var.dvs_network_interfaces}"
   }
 }
 

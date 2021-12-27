@@ -20,6 +20,12 @@ data "vsphere_datacenter" "home" {
   name = "Home"
 }
 
+data "vsphere_host" "host" {
+  count         = "${length(var.esxi_hosts)}"
+  name          = "${var.esxi_hosts[count.index]}"
+  datacenter_id = "${data.vsphere_datacenter.home.id}"
+}
+
 data "vsphere_datastore" "vm" {
   name          = "TrueNAS-VM"
   datacenter_id = data.vsphere_datacenter.home.id
