@@ -28,3 +28,8 @@ variable "dvs_network_interfaces" {
     "vmnic1",
   ]
 }
+
+variable "truenas_ip" {
+    type = string
+    default = "172.16.200.20"
+}
