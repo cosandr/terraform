@@ -29,8 +29,3 @@ data "vsphere_resource_pool" "home" {
   name          = "Home/Resources"
   datacenter_id = data.vsphere_datacenter.home.id
 }
-
-data "vsphere_network" "vm" {
-  name          = "VM"
-  datacenter_id = data.vsphere_datacenter.home.id
-}
