@@ -66,6 +66,9 @@ resource "vsphere_virtual_machine" "vm" {
   }
 
   lifecycle {
-    ignore_changes = [clone[0].template_uuid]
+    ignore_changes = [
+      clone[0].template_uuid,
+      clone[0].customize[0].linux_options,
+    ]
   }
 }

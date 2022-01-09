@@ -43,7 +43,7 @@ variable "data_disks" {
 }
 
 variable "domain" {
-  default = "vm.local"
+  default = "vm.hlab.no"
 }
 
 variable "folder" {
