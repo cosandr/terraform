@@ -64,3 +64,12 @@ variable "tags" {
   default = null
   description = "Optional list of tag IDs to apply"
 }
+
+variable "extra_networks" {
+  type = list(object({
+    cidr = string
+    host = number
+    id   = string
+  }))
+  default = []
+}

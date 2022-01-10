@@ -23,6 +23,15 @@ resource "vsphere_virtual_machine" "vm" {
     adapter_type = "${data.vsphere_virtual_machine.template.network_interface_types[0]}"
   }
 
+  dynamic "network_interface" {
+    for_each = var.extra_networks
+    iterator = item
+    content {
+      network_id   = "${item.value.id}"
+      adapter_type = "${data.vsphere_virtual_machine.template.network_interface_types[0]}"
+    }
+  }
+
   disk {
     label            = "os01"
     size             = var.os_disk_size != null ? var.os_disk_size : "${data.vsphere_virtual_machine.template.disks.0.size}"
@@ -53,6 +62,15 @@ resource "vsphere_virtual_machine" "vm" {
       network_interface {
         ipv4_address = cidrhost("${var.vm_net}", "${var.ip_address}")
         ipv4_netmask = split("/", "${var.vm_net}")[1]
+      }
+
+      dynamic "network_interface" {
+        for_each = var.extra_networks
+        iterator = item
+        content {
+          ipv4_address = cidrhost("${item.value.cidr}", "${item.value.host}")
+          ipv4_netmask = split("/", "${item.value.cidr}")[1]
+        }
       }
 
       ipv4_gateway = cidrhost("${var.vm_net}", 1)
