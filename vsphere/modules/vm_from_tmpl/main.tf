@@ -87,6 +87,7 @@ resource "vsphere_virtual_machine" "vm" {
     ignore_changes = [
       clone[0].template_uuid,
       clone[0].customize[0].linux_options,
+      clone[0].customize[0].network_interface,
     ]
   }
 }
