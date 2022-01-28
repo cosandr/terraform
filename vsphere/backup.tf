@@ -18,7 +18,7 @@ module "backup" {
   memory = 8192
 
   name       = "backup01"
-  tags       = ["${vsphere_tag.backup.id}"]
+  tags       = ["${vsphere_tag.backup.id}", "${vsphere_tag.autostart.id}"]
   ip_address = 8
 
   os_disk_size   = 20

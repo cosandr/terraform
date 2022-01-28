@@ -20,7 +20,7 @@ module "pg" {
   count      = 1
   name       = format("%s%02s", "pg", count.index + 1)
   folder     = "Backend"
-  tags       = ["${vsphere_tag.pg.id}"]
+  tags       = ["${vsphere_tag.pg.id}", "${vsphere_tag.autostart.id}"]
   ip_address = 10 + count.index + 1
 
   data_disks     = 1

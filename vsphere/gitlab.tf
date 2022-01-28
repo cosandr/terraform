@@ -31,7 +31,7 @@ module "gitlab" {
 
   name       = "gitlab01"
   folder     = "GitLab"
-  tags       = ["${vsphere_tag.gitlab.id}"]
+  tags       = ["${vsphere_tag.gitlab.id}", "${vsphere_tag.autostart.id}"]
   ip_address = 40
 
   os_disk_size   = 20
@@ -55,7 +55,7 @@ module "gitrun" {
   count      = 2
   name       = format("%s%02s", "gitrun", count.index + 1)
   folder     = "GitLab"
-  tags       = ["${vsphere_tag.gitrun.id}"]
+  tags       = ["${vsphere_tag.gitrun.id}", "${vsphere_tag.autostart.id}"]
   ip_address = 40 + count.index + 1
 
   data_disks     = 1

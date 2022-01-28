@@ -18,7 +18,7 @@ module "plex" {
   memory = 10240
 
   name       = "plex01"
-  tags       = ["${vsphere_tag.plex.id}"]
+  tags       = ["${vsphere_tag.plex.id}", "${vsphere_tag.autostart.id}"]
   ip_address = 65
 
   os_disk_size   = 20

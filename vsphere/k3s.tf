@@ -26,7 +26,7 @@ module "k3s" {
   count      = 3
   name       = format("%s%02s", "k3s", count.index + 1)
   folder     = "k3s"
-  tags       = ["${vsphere_tag.k3s.id}"]
+  tags       = ["${vsphere_tag.k3s.id}", "${vsphere_tag.autostart.id}"]
   ip_address = 50 + count.index + 1
 
   os_disk_size   = 200

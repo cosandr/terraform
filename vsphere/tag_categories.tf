@@ -13,3 +13,11 @@ resource "vsphere_tag_category" "storage" {
 
   associable_types = ["Datastore"]
 }
+
+resource "vsphere_tag_category" "meta" {
+  name        = "meta"
+  cardinality = "MULTIPLE"
+  description = "Meta tags"
+
+  associable_types = ["VirtualMachine"]
+}

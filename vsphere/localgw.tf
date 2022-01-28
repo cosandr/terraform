@@ -20,7 +20,7 @@ module "localgw" {
   count      = 1
   name       = format("%s%02s", "localgw", count.index + 1)
   folder     = "Backend"
-  tags       = ["${vsphere_tag.localgw.id}"]
+  tags       = ["${vsphere_tag.localgw.id}", "${vsphere_tag.autostart.id}"]
   ip_address = 91 + count.index
 
   os_disk_size = 20

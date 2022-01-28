@@ -38,7 +38,7 @@ module "elasticsearch" {
   count      = 3
   name       = format("%s%02s", "es", count.index + 1)
   folder     = "ELK"
-  tags       = ["${vsphere_tag.elasticsearch.id}"]
+  tags       = ["${vsphere_tag.elasticsearch.id}", "${vsphere_tag.autostart.id}"]
   ip_address = 30 + count.index + 1
 
   data_disks     = 1
@@ -60,7 +60,7 @@ module "logkib" {
 
   name       = "logkib01"
   folder     = "ELK"
-  tags       = ["${vsphere_tag.logstash.id}", "${vsphere_tag.kibana.id}"]
+  tags       = ["${vsphere_tag.logstash.id}", "${vsphere_tag.kibana.id}", "${vsphere_tag.autostart.id}"]
   ip_address = 30
 
   os_disk_size = 30

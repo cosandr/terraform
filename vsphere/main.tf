@@ -52,3 +52,9 @@ data "vsphere_resource_pool" "home" {
   name          = "Home/Resources"
   datacenter_id = data.vsphere_datacenter.home.id
 }
+
+resource "vsphere_tag" "autostart" {
+  name        = "autostart"
+  category_id = "${vsphere_tag_category.meta.id}"
+  description = "VM should be autostarted"
+}

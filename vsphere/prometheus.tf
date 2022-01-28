@@ -20,7 +20,7 @@ module "prometheus" {
   count      = 1
   name       = format("%s%02s", "prom", count.index + 1)
   folder     = "Backend"
-  tags       = ["${vsphere_tag.prometheus.id}"]
+  tags       = ["${vsphere_tag.prometheus.id}", "${vsphere_tag.autostart.id}"]
   ip_address = 20 + count.index + 1
 
   data_disks     = 1
