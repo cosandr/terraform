@@ -13,3 +13,10 @@ Add required variables to a file ending in `.auto.tfvars`
 vsphere_server = ""
 vsphere_password = ""
 ```
+
+Mikrotik variables
+
+```
+mikrotik_user = ""
+mikrotik_password = ""
+```

@@ -4,8 +4,20 @@ terraform {
       source = "hashicorp/vsphere"
       version = "~> 2.0"
     }
+    mikrotik = {
+      source = "ddelnano/mikrotik"
+      version = "~> 0.8"
+    }
   }
   backend "pg" {}
+}
+
+provider "mikrotik" {
+  host = var.mikrotik_api_url
+  username = var.mikrotik_user
+  password = var.mikrotik_password
+  tls = true
+  insecure = true
 }
 
 provider "vsphere" {

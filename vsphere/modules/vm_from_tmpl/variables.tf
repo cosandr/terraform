@@ -27,6 +27,11 @@ variable "ip_address" {
 }
 
 # Optional
+variable "add_mikrotik_dns" {
+  type = bool
+  default = true
+}
+
 variable "cores" {
   type = number
   default = 4
