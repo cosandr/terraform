@@ -24,8 +24,8 @@ variable "esxi_hosts" {
 
 variable "dvs_network_interfaces" {
   default = [
-    "vmnic0",
-    "vmnic1",
+    "vmnic2",
+    "vmnic3",
   ]
 }
 
