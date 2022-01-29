@@ -18,6 +18,7 @@ module "nextcloud" {
   memory = 6144
 
   name       = "nextcloud01"
+  folder     = "Services"
   tags       = ["${vsphere_tag.nextcloud.id}", "${vsphere_tag.autostart.id}"]
   ip_address = 60
 

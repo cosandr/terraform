@@ -58,3 +58,9 @@ resource "vsphere_tag" "autostart" {
   category_id = "${vsphere_tag_category.meta.id}"
   description = "VM should be autostarted"
 }
+
+resource "vsphere_folder" "services" {
+  path          = "Services"
+  type          = "vm"
+  datacenter_id = "${data.vsphere_datacenter.home.id}"
+}

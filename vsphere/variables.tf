@@ -31,7 +31,7 @@ variable "vm_net_space" {
 
 variable "esxi_hosts" {
   default = [
-    "10.0.100.5",
+    "slb.esxi.hlab.no",
   ]
 }
 
