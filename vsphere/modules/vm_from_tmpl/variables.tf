@@ -65,6 +65,10 @@ variable "os_disk_size" {
   default = null
 }
 
+variable "storage_policy_id" {
+  default = null
+}
+
 variable "tags" {
   default = null
   description = "Optional list of tag IDs to apply"

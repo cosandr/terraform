@@ -18,6 +18,8 @@ resource "vsphere_virtual_machine" "vm" {
 
   scsi_type            = "${data.vsphere_virtual_machine.template.scsi_type}"
 
+  storage_policy_id    = "${var.storage_policy_id}"
+
   network_interface {
     network_id   = "${var.network_id}"
     adapter_type = "${data.vsphere_virtual_machine.template.network_interface_types[0]}"

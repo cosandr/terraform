@@ -53,6 +53,10 @@ data "vsphere_resource_pool" "home" {
   datacenter_id = data.vsphere_datacenter.home.id
 }
 
+data "vsphere_storage_policy" "encryption" {
+  name = "VM Encryption Policy"
+}
+
 resource "vsphere_tag" "autostart" {
   name        = "autostart"
   category_id = "${vsphere_tag_category.meta.id}"
