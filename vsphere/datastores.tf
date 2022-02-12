@@ -64,6 +64,21 @@ resource "vsphere_vmfs_datastore" "esxi" {
   }
 }
 
+resource "vsphere_vmfs_datastore" "local" {
+  name           = "Local-Data"
+  host_system_id = "${data.vsphere_host.host[0].id}"
+
+  disks = [
+    "t10.NVMe____Samsung_SSD_980_1TB_____________________9850B011D9382500",
+  ]
+
+  tags = ["${vsphere_tag.storage_vm.id}"]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
 resource "vsphere_nas_datastore" "vm" {
   name            = "TrueNAS-VM"
   host_system_ids = data.vsphere_host.host.*.id
