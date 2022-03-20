@@ -24,7 +24,7 @@ module "pg" {
   ip_address = 10 + count.index + 1
 
   data_disks     = 1
-  data_disk_size = 20
+  data_disk_size = 100
 
   storage_policy_id = "${data.vsphere_storage_policy.encryption.id}"
 }
