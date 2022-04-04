@@ -15,7 +15,7 @@ module "pg" {
   vm_net           = "${var.vm_net_space}"
 
   cores  = 4
-  memory = 4096
+  memory = 8192
 
   count      = 1
   name       = format("%s%02s", "pg", count.index + 1)
