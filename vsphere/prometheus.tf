@@ -23,7 +23,7 @@ module "prometheus" {
   tags       = ["${vsphere_tag.prometheus.id}", "${vsphere_tag.autostart.id}"]
   ip_address = 20 + count.index + 1
 
-  data_disks     = 1
+  data_disks     = 2
   data_disk_size = 100
 
   storage_policy_id = "${data.vsphere_storage_policy.encryption.id}"
