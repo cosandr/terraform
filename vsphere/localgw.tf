@@ -24,7 +24,7 @@ module "localgw" {
   ip_address = 91 + count.index
 
   os_disk_size = 20
-  data_disks   = 0
+  data_disks   = []
 
   storage_policy_id = "${data.vsphere_storage_policy.encryption.id}"
 }

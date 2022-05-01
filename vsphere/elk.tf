@@ -41,8 +41,11 @@ module "elasticsearch" {
   tags       = ["${vsphere_tag.elasticsearch.id}", "${vsphere_tag.autostart.id}"]
   ip_address = 30 + count.index + 1
 
-  data_disks     = 1
-  data_disk_size = 50
+  data_disks = [
+    {
+      "size": 50
+    }
+  ]
 }
 
 module "logkib" {
@@ -64,5 +67,5 @@ module "logkib" {
   ip_address = 30
 
   os_disk_size = 30
-  data_disks   = 0
+  data_disks   = []
 }

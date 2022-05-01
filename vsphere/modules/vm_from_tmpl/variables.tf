@@ -37,14 +37,9 @@ variable "cores" {
   default = 4
 }
 
-variable "data_disk_size" {
-  type = number
-  default = 50
-}
-
 variable "data_disks" {
-  type = number
-  default = 0
+  type = list(map(string))
+  default = []
 }
 
 variable "domain" {

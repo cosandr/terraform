@@ -42,13 +42,14 @@ resource "vsphere_virtual_machine" "vm" {
   }
 
   dynamic "disk" {
-    for_each = toset(range(1, var.data_disks + 1))
+    for_each = toset(range(0, length(var.data_disks)))
     iterator = item
     content {
-      label            = format("data%02s", item.key)
-      size             = "${var.data_disk_size}"
-      unit_number      = item.key
-      thin_provisioned = true
+      label            = format("data%02s", item.key + 1)
+      size             = lookup(var.data_disks[item.key], "size", 100)
+      unit_number      = lookup(var.data_disks[item.key], "unit", item.key + 1)
+      thin_provisioned = lookup(var.data_disks[item.key], "thin", true)
+      controller_type  = lookup(var.data_disks[item.key], "controller", "scsi")
     }
   }
 

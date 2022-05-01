@@ -23,6 +23,10 @@ module "plex" {
   ip_address = 65
 
   os_disk_size   = 20
-  data_disks     = 1
-  data_disk_size = 50
+
+  data_disks = [
+    {
+      "size": 50
+    },
+  ]
 }

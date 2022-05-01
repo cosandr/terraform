@@ -34,9 +34,12 @@ module "gitlab" {
   tags       = ["${vsphere_tag.gitlab.id}", "${vsphere_tag.autostart.id}"]
   ip_address = 40
 
-  os_disk_size   = 20
-  data_disks     = 1
-  data_disk_size = 30
+  os_disk_size = 20
+  data_disks   = [
+    {
+      "size": 30
+    }
+  ]
 }
 
 module "gitrun" {
@@ -58,6 +61,9 @@ module "gitrun" {
   tags       = ["${vsphere_tag.gitrun.id}", "${vsphere_tag.autostart.id}"]
   ip_address = 40 + count.index + 1
 
-  data_disks     = 1
-  data_disk_size = 20
+  data_disks = [
+    {
+      "size": 20
+    },
+  ]
 }

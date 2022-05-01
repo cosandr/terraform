@@ -23,5 +23,5 @@ module "backup" {
   ip_address = 8
 
   os_disk_size   = 20
-  data_disks     = 0
+  data_disks     = []
 }
