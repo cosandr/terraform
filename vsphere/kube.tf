@@ -1,16 +1,16 @@
-resource "vsphere_folder" "k3s" {
-  path          = "k3s"
+resource "vsphere_folder" "kube" {
+  path          = "kube"
   type          = "vm"
   datacenter_id = "${data.vsphere_datacenter.home.id}"
 }
 
-resource "vsphere_tag" "k3s" {
-  name        = "k3s"
+resource "vsphere_tag" "kube" {
+  name        = "kube"
   category_id = "${vsphere_tag_category.ansible_group.id}"
   description = "Kubernetes servers"
 }
 
-module "k3s" {
+module "kube" {
   source = "./modules/vm_from_tmpl"
 
   datacenter_id    = "${data.vsphere_datacenter.home.id}"
@@ -23,10 +23,14 @@ module "k3s" {
   cores  = 4
   memory = 8192
 
+  extra_config = {
+    "disk.EnableUUID" = "True"
+  }
+
   count      = 3
-  name       = format("%s%02s", "k3s", count.index + 1)
-  folder     = "k3s"
-  tags       = ["${vsphere_tag.k3s.id}", "${vsphere_tag.autostart.id}"]
+  name       = format("%s%02s", "kube", count.index + 1)
+  folder     = "kube"
+  tags       = ["${vsphere_tag.kube.id}", "${vsphere_tag.autostart.id}"]
   ip_address = 50 + count.index + 1
 
   os_disk_size   = 200
