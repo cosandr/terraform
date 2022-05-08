@@ -32,6 +32,11 @@ variable "add_mikrotik_dns" {
   default = true
 }
 
+variable "extra_config" {
+  type = map
+  default = null
+}
+
 variable "cores" {
   type = number
   default = 4

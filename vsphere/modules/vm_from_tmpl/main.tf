@@ -16,6 +16,8 @@ resource "vsphere_virtual_machine" "vm" {
   folder               = "${var.folder}"
   tags                 = "${var.tags}"
 
+  extra_config         = "${var.extra_config}"
+
   scsi_type            = "${data.vsphere_virtual_machine.template.scsi_type}"
 
   storage_policy_id    = "${var.storage_policy_id}"
