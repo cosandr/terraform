@@ -32,6 +32,11 @@ variable "add_mikrotik_dns" {
   default = true
 }
 
+variable "enable_disk_uuid" {
+  type = bool
+  default = false
+}
+
 variable "extra_config" {
   type = map
   default = null
