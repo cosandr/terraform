@@ -26,13 +26,6 @@ resource "vsphere_distributed_port_group" "noinet" {
   vlan_id = 20
 }
 
-resource "vsphere_distributed_port_group" "kube" {
-  name                            = "KUBE"
-  distributed_virtual_switch_uuid = "${vsphere_distributed_virtual_switch.dvs.id}"
-
-  vlan_id = 30
-}
-
 resource "vsphere_distributed_port_group" "general" {
   name                            = "GENERAL"
   distributed_virtual_switch_uuid = "${vsphere_distributed_virtual_switch.dvs.id}"
@@ -45,6 +38,13 @@ resource "vsphere_distributed_port_group" "mgmt" {
   distributed_virtual_switch_uuid = "${vsphere_distributed_virtual_switch.dvs.id}"
 
   vlan_id = 100
+}
+
+resource "vsphere_distributed_port_group" "kube" {
+  name                            = "KUBE"
+  distributed_virtual_switch_uuid = "${vsphere_distributed_virtual_switch.dvs.id}"
+
+  vlan_id = 233
 }
 
 resource "vsphere_distributed_port_group" "trunk" {
