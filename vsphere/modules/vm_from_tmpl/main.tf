@@ -91,6 +91,11 @@ resource "vsphere_virtual_machine" "vm" {
 
   lifecycle {
     ignore_changes = [
+      disk[0].label,
+      disk[1].label,
+      disk[2].label,
+      network_interface[0].use_static_mac,
+      network_interface[1].use_static_mac,
       clone[0].template_uuid,
       clone[0].customize[0].linux_options,
       clone[0].customize[0].network_interface,

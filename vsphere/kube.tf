@@ -90,6 +90,7 @@ resource "vsphere_virtual_machine" "kube_master" {
       clone[0].customize[0].linux_options,
       clone[0].customize[0].network_interface,
       disk,
+      network_interface[0].use_static_mac,
     ]
   }
 }
@@ -158,6 +159,7 @@ resource "vsphere_virtual_machine" "kube_worker" {
       clone[0].customize[0].linux_options,
       clone[0].customize[0].network_interface,
       disk,
+      network_interface[0].use_static_mac,
     ]
   }
 }
