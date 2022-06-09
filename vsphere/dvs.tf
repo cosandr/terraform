@@ -55,6 +55,11 @@ resource "vsphere_distributed_port_group" "trunk" {
   auto_expand = false
 
   vlan_range {
+    min_vlan = 2
+    max_vlan = 2
+  }
+
+  vlan_range {
     min_vlan = 10
     max_vlan = 10
   }
