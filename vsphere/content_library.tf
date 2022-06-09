@@ -6,7 +6,7 @@ resource "vsphere_content_library" "tanzu" {
 
 resource "vsphere_content_library" "ovas" {
   name            = "OVAs"
-  storage_backing = [vsphere_nas_datastore.extra.id]
+  storage_backing = [vsphere_nas_datastore.tank.id]
   description     = "Content Library for OVAs"
 }
 

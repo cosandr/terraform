@@ -69,7 +69,7 @@ resource "vsphere_vmfs_datastore" "local" {
   host_system_id = "${data.vsphere_host.host[0].id}"
 
   disks = [
-    "t10.NVMe____Samsung_SSD_980_1TB_____________________9850B011D9382500",
+    "t10.ATA_____Samsung_SSD_870_EVO_1TB_________________S626NZFR303147Y_____",
   ]
 
   tags = ["${vsphere_tag.storage_vm.id}"]
@@ -91,14 +91,14 @@ resource "vsphere_nas_datastore" "vm" {
   tags = ["${vsphere_tag.storage_vm.id}", "${vsphere_tag.storage_tanzu.id}"]
 }
 
-resource "vsphere_nas_datastore" "extra" {
-  name            = "TrueNAS-Extra"
+resource "vsphere_nas_datastore" "tank" {
+  name            = "TrueNAS-Tank"
   host_system_ids = data.vsphere_host.host.*.id
 
   type          = "NFS41"
   security_type = "AUTH_SYS"
   remote_hosts  = ["${var.truenas_ip}"]
-  remote_path   = "/mnt/extra/esxi"
+  remote_path   = "/mnt/tank/esxi"
 
   tags = ["${vsphere_tag.storage_vm.id}"]
 }

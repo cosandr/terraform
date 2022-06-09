@@ -43,8 +43,8 @@ data "vsphere_datastore" "vm" {
   datacenter_id = data.vsphere_datacenter.home.id
 }
 
-data "vsphere_datastore" "extra" {
-  name          = "TrueNAS-Extra"
+data "vsphere_datastore" "tank" {
+  name          = "TrueNAS-Tank"
   datacenter_id = data.vsphere_datacenter.home.id
 }
 
