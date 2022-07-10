@@ -8,7 +8,7 @@ module "loki" {
   source = "./modules/vm_from_tmpl"
 
   datacenter_id    = "${data.vsphere_datacenter.home.id}"
-  datastore_id     = "${vsphere_vmfs_datastore.local.id}"
+  datastore_id     = "${data.vsphere_datastore.vm.id}"
   network_id       = "${vsphere_distributed_port_group.vm.id}"
   resource_pool_id = "${data.vsphere_resource_pool.home.id}"
   template_name    = "templates/alma9_packer"
@@ -24,6 +24,4 @@ module "loki" {
   ip_address = 24 + count.index + 1
 
   os_disk_size = 50
-
-  storage_policy_id = "${data.vsphere_storage_policy.encryption.id}"
 }

@@ -32,6 +32,7 @@ variable "vm_net_space" {
 variable "esxi_hosts" {
   default = [
     "slb.esxi.hlab.no",
+    "xn01.esxi.hlab.no",
   ]
 }
 
@@ -44,5 +45,5 @@ variable "dvs_network_interfaces" {
 
 variable "truenas_ip" {
     type = string
-    default = "172.16.200.20"
+    default = "10.0.2.2"
 }

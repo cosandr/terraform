@@ -10,6 +10,11 @@ resource "vsphere_distributed_virtual_switch" "dvs" {
     host_system_id = "${data.vsphere_host.host.0.id}"
     devices        = "${var.dvs_network_interfaces}"
   }
+
+  host {
+    host_system_id = "${data.vsphere_host.host.1.id}"
+    devices        = ["vmnic1"]
+  }
 }
 
 resource "vsphere_distributed_port_group" "vm" {
@@ -40,11 +45,13 @@ resource "vsphere_distributed_port_group" "mgmt" {
   vlan_id = 100
 }
 
-resource "vsphere_distributed_port_group" "kube" {
-  name                            = "KUBE"
+resource "vsphere_distributed_port_group" "vmo" {
+  name                            = "VMO"
   distributed_virtual_switch_uuid = "${vsphere_distributed_virtual_switch.dvs.id}"
 
-  vlan_id = 233
+  type = "ephemeral"
+  auto_expand = false
+  vlan_id = 866
 }
 
 resource "vsphere_distributed_port_group" "trunk" {
