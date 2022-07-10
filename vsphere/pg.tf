@@ -19,7 +19,7 @@ module "pg" {
 
   count      = 1
   name       = format("%s%02s", "pg", count.index + 1)
-  folder     = "Backend"
+  folder     = "PostgreSQL"
   tags       = ["${vsphere_tag.pg.id}", "${vsphere_tag.autostart.id}"]
   ip_address = 10 + count.index + 1
 

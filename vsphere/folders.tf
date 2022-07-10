@@ -1,8 +1,9 @@
 resource "vsphere_folder" "folder" {
   for_each = toset([
-    "Permanent",
-    "templates",
     "Backend",
+    "Permanent",
+    "PostgreSQL",
+    "templates",
     "Windows"
   ])
   path          = each.key
