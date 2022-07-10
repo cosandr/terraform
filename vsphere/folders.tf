@@ -7,5 +7,5 @@ resource "vsphere_folder" "folder" {
   ])
   path          = each.key
   type          = "vm"
-  datacenter_id = "${data.vsphere_datacenter.home.id}"
+  datacenter_id = data.vsphere_datacenter.home.id
 }

@@ -1,11 +1,11 @@
 terraform {
   required_providers {
     vsphere = {
-      source = "hashicorp/vsphere"
+      source  = "hashicorp/vsphere"
       version = "~> 2.0"
     }
     mikrotik = {
-      source = "ddelnano/mikrotik"
+      source  = "ddelnano/mikrotik"
       version = "~> 0.8"
     }
   }
@@ -13,10 +13,10 @@ terraform {
 }
 
 provider "mikrotik" {
-  host = var.mikrotik_api_url
+  host     = var.mikrotik_api_url
   username = var.mikrotik_user
   password = var.mikrotik_password
-  tls = true
+  tls      = true
   insecure = true
 }
 
@@ -33,9 +33,9 @@ data "vsphere_datacenter" "home" {
 }
 
 data "vsphere_host" "host" {
-  count         = "${length(var.esxi_hosts)}"
-  name          = "${var.esxi_hosts[count.index]}"
-  datacenter_id = "${data.vsphere_datacenter.home.id}"
+  count         = length(var.esxi_hosts)
+  name          = var.esxi_hosts[count.index]
+  datacenter_id = data.vsphere_datacenter.home.id
 }
 
 data "vsphere_datastore" "vm" {
@@ -59,12 +59,12 @@ data "vsphere_storage_policy" "encryption" {
 
 resource "vsphere_tag" "autostart" {
   name        = "autostart"
-  category_id = "${vsphere_tag_category.meta.id}"
+  category_id = vsphere_tag_category.meta.id
   description = "VM should be autostarted"
 }
 
 resource "vsphere_folder" "services" {
   path          = "Services"
   type          = "vm"
-  datacenter_id = "${data.vsphere_datacenter.home.id}"
+  datacenter_id = data.vsphere_datacenter.home.id
 }

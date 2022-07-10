@@ -1,14 +1,14 @@
 variable "vsphere_user" {
-    default = "administrator@vsphere.local"
+  default = "administrator@vsphere.local"
 }
 
 variable "vsphere_password" {
-    type = string
-    sensitive = true
+  type      = string
+  sensitive = true
 }
 
 variable "vsphere_server" {
-    type = string
+  type = string
 }
 
 variable "mikrotik_api_url" {
@@ -16,17 +16,17 @@ variable "mikrotik_api_url" {
 }
 
 variable "mikrotik_user" {
-    type = string
+  type = string
 }
 
 variable "mikrotik_password" {
-    type = string
-    sensitive = true
+  type      = string
+  sensitive = true
 }
 
 variable "vm_net_space" {
-    type = string
-    default = "10.0.10.0/24"
+  type    = string
+  default = "10.0.10.0/24"
 }
 
 variable "esxi_hosts" {
@@ -44,6 +44,6 @@ variable "dvs_network_interfaces" {
 }
 
 variable "truenas_ip" {
-    type = string
-    default = "10.0.2.2"
+  type    = string
+  default = "10.0.2.2"
 }

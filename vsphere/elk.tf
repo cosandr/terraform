@@ -1,36 +1,36 @@
 resource "vsphere_folder" "elk" {
   path          = "ELK"
   type          = "vm"
-  datacenter_id = "${data.vsphere_datacenter.home.id}"
+  datacenter_id = data.vsphere_datacenter.home.id
 }
 
 resource "vsphere_tag" "elasticsearch" {
   name        = "elasticsearch"
-  category_id = "${vsphere_tag_category.ansible_group.id}"
+  category_id = vsphere_tag_category.ansible_group.id
   description = "Elasticsearch servers"
 }
 
 resource "vsphere_tag" "logstash" {
   name        = "logstash"
-  category_id = "${vsphere_tag_category.ansible_group.id}"
+  category_id = vsphere_tag_category.ansible_group.id
   description = "Logstash servers"
 }
 
 resource "vsphere_tag" "kibana" {
   name        = "kibana"
-  category_id = "${vsphere_tag_category.ansible_group.id}"
+  category_id = vsphere_tag_category.ansible_group.id
   description = "Kibana servers"
 }
 
 module "elasticsearch" {
   source = "./modules/vm_from_tmpl"
 
-  datacenter_id    = "${data.vsphere_datacenter.home.id}"
-  datastore_id     = "${data.vsphere_datastore.vm.id}"
-  network_id       = "${vsphere_distributed_port_group.vm.id}"
-  resource_pool_id = "${data.vsphere_resource_pool.home.id}"
+  datacenter_id    = data.vsphere_datacenter.home.id
+  datastore_id     = data.vsphere_datastore.vm.id
+  network_id       = vsphere_distributed_port_group.vm.id
+  resource_pool_id = data.vsphere_resource_pool.home.id
   template_name    = "templates/rocky_packer"
-  vm_net           = "${var.vm_net_space}"
+  vm_net           = var.vm_net_space
 
   cores  = 4
   memory = 12288
@@ -43,7 +43,7 @@ module "elasticsearch" {
 
   data_disks = [
     {
-      "size": 50
+      "size" : 50
     }
   ]
 }
@@ -51,12 +51,12 @@ module "elasticsearch" {
 module "logkib" {
   source = "./modules/vm_from_tmpl"
 
-  datacenter_id    = "${data.vsphere_datacenter.home.id}"
-  datastore_id     = "${data.vsphere_datastore.vm.id}"
-  network_id       = "${vsphere_distributed_port_group.vm.id}"
-  resource_pool_id = "${data.vsphere_resource_pool.home.id}"
+  datacenter_id    = data.vsphere_datacenter.home.id
+  datastore_id     = data.vsphere_datastore.vm.id
+  network_id       = vsphere_distributed_port_group.vm.id
+  resource_pool_id = data.vsphere_resource_pool.home.id
   template_name    = "templates/rocky_packer"
-  vm_net           = "${var.vm_net_space}"
+  vm_net           = var.vm_net_space
 
   cores  = 4
   memory = 8192
