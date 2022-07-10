@@ -6,14 +6,14 @@ resource "vsphere_distributed_virtual_switch" "dvs" {
   active_uplinks  = ["uplink1", "uplink2"]
   standby_uplinks = ["uplink3", "uplink4"]
 
-  host {
-    host_system_id = data.vsphere_host.host.0.id
-    devices        = var.dvs_network_interfaces
-  }
-
-  host {
-    host_system_id = data.vsphere_host.host.1.id
-    devices        = ["vmnic1"]
+  # Add DVS to all hosts
+  dynamic "host" {
+    for_each = toset(range(0, length(data.vsphere_host.host)))
+    iterator = item
+    content {
+      host_system_id = data.vsphere_host.host[item.key].id
+      devices        = var.dvs_network_interfaces[data.vsphere_host.host[item.key].name]
+    }
   }
 }
 

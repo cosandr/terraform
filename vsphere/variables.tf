@@ -37,10 +37,10 @@ variable "esxi_hosts" {
 }
 
 variable "dvs_network_interfaces" {
-  default = [
-    "vmnic2",
-    "vmnic3",
-  ]
+  default = {
+    "slb.esxi.hlab.no" : ["vmnic2", "vmnic3"],
+    "xn01.esxi.hlab.no" : ["vmnic1"],
+  }
 }
 
 variable "truenas_ip" {
