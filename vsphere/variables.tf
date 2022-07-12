@@ -2,26 +2,8 @@ variable "vsphere_user" {
   default = "administrator@vsphere.local"
 }
 
-variable "vsphere_password" {
-  type      = string
-  sensitive = true
-}
-
-variable "vsphere_server" {
-  type = string
-}
-
 variable "mikrotik_api_url" {
   default = "10.0.50.1:8729"
-}
-
-variable "mikrotik_user" {
-  type = string
-}
-
-variable "mikrotik_password" {
-  type      = string
-  sensitive = true
 }
 
 variable "vm_net_space" {

@@ -8,22 +8,33 @@ terraform {
       source  = "ddelnano/mikrotik"
       version = "~> 0.8"
     }
+    pass = {
+      source  = "mecodia/pass"
+      version = "~> 3.0"
+    }
   }
   backend "pg" {}
 }
 
+locals {
+  mikrotik_user     = data.pass_password.mikrotik_user.password
+  mikrotik_password = data.pass_password.mikrotik_password.password
+  vsphere_server    = data.pass_password.vsphere_server.password
+  vsphere_password  = data.pass_password.vsphere_password.password
+}
+
 provider "mikrotik" {
   host     = var.mikrotik_api_url
-  username = var.mikrotik_user
-  password = var.mikrotik_password
+  username = local.mikrotik_user
+  password = local.mikrotik_password
   tls      = true
   insecure = true
 }
 
 provider "vsphere" {
   user           = var.vsphere_user
-  password       = var.vsphere_password
-  vsphere_server = var.vsphere_server
+  password       = local.vsphere_password
+  vsphere_server = local.vsphere_server
 
   allow_unverified_ssl = true
 }
