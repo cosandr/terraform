@@ -14,14 +14,12 @@ variable "vm_net_space" {
 variable "esxi_hosts" {
   default = [
     "slb.esxi.hlab.no",
-    "xn01.esxi.hlab.no",
   ]
 }
 
 variable "dvs_network_interfaces" {
   default = {
     "slb.esxi.hlab.no" : ["vmnic2", "vmnic3"],
-    "xn01.esxi.hlab.no" : ["vmnic1"],
   }
 }
 
