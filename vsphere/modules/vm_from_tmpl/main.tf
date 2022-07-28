@@ -53,6 +53,7 @@ resource "vsphere_virtual_machine" "vm" {
       unit_number      = lookup(var.data_disks[item.key], "unit", item.key + 1)
       thin_provisioned = lookup(var.data_disks[item.key], "thin", true)
       controller_type  = lookup(var.data_disks[item.key], "controller", "scsi")
+      keep_on_remove   = lookup(var.data_disks[item.key], "keep_on_remove", false)
     }
   }
 

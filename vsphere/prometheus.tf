@@ -25,10 +25,12 @@ module "prometheus" {
 
   data_disks = [
     {
-      "size" : 100
+      "size" : 100,
+      "keep_on_remove": true,
     },
     {
-      "size" : 100
+      "size" : 100,
+      "keep_on_remove": true,
     },
   ]
 }
