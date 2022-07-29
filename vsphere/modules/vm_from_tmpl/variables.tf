@@ -87,3 +87,8 @@ variable "extra_networks" {
   }))
   default = []
 }
+
+variable "nested_hv_enabled" {
+  type = bool
+  default = false
+}

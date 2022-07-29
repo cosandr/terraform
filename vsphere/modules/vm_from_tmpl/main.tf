@@ -23,6 +23,8 @@ resource "vsphere_virtual_machine" "vm" {
 
   storage_policy_id    = "${var.storage_policy_id}"
 
+  nested_hv_enabled    = "${var.nested_hv_enabled}"
+
   network_interface {
     network_id   = "${var.network_id}"
     adapter_type = "${data.vsphere_virtual_machine.template.network_interface_types[0]}"
