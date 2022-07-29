@@ -21,6 +21,10 @@ locals {
   mikrotik_password = data.pass_password.mikrotik_password.password
   vsphere_server    = data.pass_password.vsphere_server.password
   vsphere_password  = data.pass_password.vsphere_password.password
+  ipv4_gateways     = {
+    vm   = cidrhost(var.vm_net_space, 1),
+    mgmt = cidrhost(var.mgmt_net_space, 1),
+  }
 }
 
 provider "mikrotik" {

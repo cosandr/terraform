@@ -11,6 +11,11 @@ variable "vm_net_space" {
   default = "10.0.10.0/24"
 }
 
+variable "mgmt_net_space" {
+  type    = string
+  default = "10.0.100.0/24"
+}
+
 variable "esxi_hosts" {
   default = [
     "slb.esxi.hlab.no",

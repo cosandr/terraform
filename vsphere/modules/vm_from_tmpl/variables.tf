@@ -8,22 +8,10 @@ variable "datastore_id" {
 variable "name" {
 }
 
-variable "network_id" {
-}
-
 variable "resource_pool_id" {
 }
 
 variable "template_name" {
-}
-
-variable "vm_net" {
-  description = "Network in CIDR format"
-}
-
-variable "ip_address" {
-  type = number
-  description = "IP address, only the last octet"
 }
 
 # Optional
@@ -79,13 +67,21 @@ variable "tags" {
   description = "Optional list of tag IDs to apply"
 }
 
-variable "extra_networks" {
-  type = list(object({
-    cidr = string
-    host = number
-    id   = string
-  }))
+variable "host_name" {
+  default = null
+}
+
+variable "networks" {
+  type = list(map(string))
   default = []
+}
+
+variable "ipv4_gateway" {
+  default = null
+}
+
+variable "ipv6_gateway" {
+  default = null
 }
 
 variable "nested_hv_enabled" {

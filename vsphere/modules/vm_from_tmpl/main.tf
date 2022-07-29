@@ -25,17 +25,12 @@ resource "vsphere_virtual_machine" "vm" {
 
   nested_hv_enabled    = "${var.nested_hv_enabled}"
 
-  network_interface {
-    network_id   = "${var.network_id}"
-    adapter_type = "${data.vsphere_virtual_machine.template.network_interface_types[0]}"
-  }
-
   dynamic "network_interface" {
-    for_each = var.extra_networks
+    for_each = toset(range(0, length(var.networks)))
     iterator = item
     content {
-      network_id   = "${item.value.id}"
-      adapter_type = "${data.vsphere_virtual_machine.template.network_interface_types[0]}"
+      network_id   = var.networks[item.key].id
+      adapter_type = lookup(var.networks[item.key], "adapter_type", data.vsphere_virtual_machine.template.network_interface_types[0])
     }
   }
 
@@ -64,28 +59,26 @@ resource "vsphere_virtual_machine" "vm" {
 
     customize {
       linux_options {
-        host_name = "${var.name}"
+        host_name = var.host_name != null ? var.host_name : var.name
         domain = "${var.domain}"
       }
 
-      network_interface {
-        ipv4_address = cidrhost("${var.vm_net}", "${var.ip_address}")
-        ipv4_netmask = split("/", "${var.vm_net}")[1]
-      }
-
       dynamic "network_interface" {
-        for_each = var.extra_networks
+        for_each = toset(range(0, length(var.networks)))
         iterator = item
         content {
-          ipv4_address = cidrhost("${item.value.cidr}", "${item.value.host}")
-          ipv4_netmask = split("/", "${item.value.cidr}")[1]
+          ipv4_address = lookup(var.networks[item.key], "ipv4_address", null)
+          ipv4_netmask = lookup(var.networks[item.key], "ipv4_netmask", null)
+          ipv6_address = lookup(var.networks[item.key], "ipv6_address", null)
+          ipv6_netmask = lookup(var.networks[item.key], "ipv6_netmask", null)
         }
       }
 
-      ipv4_gateway = cidrhost("${var.vm_net}", 1)
+      ipv4_gateway = var.ipv4_gateway
+      ipv6_gateway = var.ipv6_gateway
 
       dns_server_list = [
-        cidrhost("${var.vm_net}", 1),
+        var.ipv4_gateway,
         "1.1.1.1",
         "8.8.8.8"
       ]
