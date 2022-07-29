@@ -1,6 +1,7 @@
 resource "vsphere_folder" "folder" {
   for_each = toset([
     "Backend",
+    "oVirt",
     "Permanent",
     "PostgreSQL",
     "templates",
