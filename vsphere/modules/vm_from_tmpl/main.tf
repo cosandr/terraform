@@ -23,7 +23,10 @@ resource "vsphere_virtual_machine" "vm" {
 
   storage_policy_id    = "${var.storage_policy_id}"
 
-  nested_hv_enabled    = "${var.nested_hv_enabled}"
+  nested_hv_enabled      = "${var.nested_hv_enabled}"
+  cpu_hot_add_enabled    = "${var.cpu_hot_add_enabled}"
+  cpu_hot_remove_enabled = "${var.cpu_hot_remove_enabled}"
+  memory_hot_add_enabled = "${var.memory_hot_add_enabled}"
 
   dynamic "network_interface" {
     for_each = toset(range(0, length(var.networks)))

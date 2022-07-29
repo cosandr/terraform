@@ -88,3 +88,15 @@ variable "nested_hv_enabled" {
   type = bool
   default = false
 }
+
+variable "cpu_hot_add_enabled" {
+  default = false
+}
+
+variable "cpu_hot_remove_enabled" {
+  default = false
+}
+
+variable "memory_hot_add_enabled" {
+  default = false
+}
