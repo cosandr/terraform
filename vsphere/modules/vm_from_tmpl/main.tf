@@ -1,32 +1,32 @@
 data "vsphere_virtual_machine" "template" {
-  name          = "${var.template_name}"
-  datacenter_id = "${var.datacenter_id}"
+  name          = var.template_name
+  datacenter_id = var.datacenter_id
 }
 
 resource "vsphere_virtual_machine" "vm" {
-  name                 = "${var.name}"
-  resource_pool_id     = "${var.resource_pool_id}"
-  datastore_id         = "${var.datastore_id}"
+  name             = var.name
+  resource_pool_id = var.resource_pool_id
+  datastore_id     = var.datastore_id
 
-  num_cpus             = "${var.cores}"
-  num_cores_per_socket = "${var.cores}"
-  memory               = "${var.memory}"
-  guest_id             = "${data.vsphere_virtual_machine.template.guest_id}"
-  firmware             = "${data.vsphere_virtual_machine.template.firmware}"
-  folder               = "${var.folder}"
-  tags                 = "${var.tags}"
+  num_cpus             = var.cores
+  num_cores_per_socket = var.cores
+  memory               = var.memory
+  guest_id             = data.vsphere_virtual_machine.template.guest_id
+  firmware             = data.vsphere_virtual_machine.template.firmware
+  folder               = var.folder
+  tags                 = var.tags
 
-  enable_disk_uuid     = "${var.enable_disk_uuid}"
-  extra_config         = "${var.extra_config}"
+  enable_disk_uuid = var.enable_disk_uuid
+  extra_config     = var.extra_config
 
-  scsi_type            = "${data.vsphere_virtual_machine.template.scsi_type}"
+  scsi_type = data.vsphere_virtual_machine.template.scsi_type
 
-  storage_policy_id    = "${var.storage_policy_id}"
+  storage_policy_id = var.storage_policy_id
 
-  nested_hv_enabled      = "${var.nested_hv_enabled}"
-  cpu_hot_add_enabled    = "${var.cpu_hot_add_enabled}"
-  cpu_hot_remove_enabled = "${var.cpu_hot_remove_enabled}"
-  memory_hot_add_enabled = "${var.memory_hot_add_enabled}"
+  nested_hv_enabled      = var.nested_hv_enabled
+  cpu_hot_add_enabled    = var.cpu_hot_add_enabled
+  cpu_hot_remove_enabled = var.cpu_hot_remove_enabled
+  memory_hot_add_enabled = var.memory_hot_add_enabled
 
   dynamic "network_interface" {
     for_each = toset(range(0, length(var.networks)))
@@ -40,8 +40,8 @@ resource "vsphere_virtual_machine" "vm" {
   disk {
     label            = "os01"
     size             = var.os_disk_size != null ? var.os_disk_size : "${data.vsphere_virtual_machine.template.disks.0.size}"
-    eagerly_scrub    = "${data.vsphere_virtual_machine.template.disks.0.eagerly_scrub}"
-    thin_provisioned = "${data.vsphere_virtual_machine.template.disks.0.thin_provisioned}"
+    eagerly_scrub    = data.vsphere_virtual_machine.template.disks.0.eagerly_scrub
+    thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
   }
 
   dynamic "disk" {
@@ -58,12 +58,12 @@ resource "vsphere_virtual_machine" "vm" {
   }
 
   clone {
-    template_uuid = "${data.vsphere_virtual_machine.template.id}"
+    template_uuid = data.vsphere_virtual_machine.template.id
 
     customize {
       linux_options {
         host_name = var.host_name != null ? var.host_name : var.name
-        domain = "${var.domain}"
+        domain    = var.domain
       }
 
       dynamic "network_interface" {

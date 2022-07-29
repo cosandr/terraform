@@ -15,10 +15,10 @@ module "pg" {
   cores  = 12
   memory = 12288
 
-  count      = 1
-  name       = format("%s%02s", "pg", count.index + 1)
-  folder     = "PostgreSQL"
-  tags       = ["${vsphere_tag.pg.id}", "${vsphere_tag.autostart.id}"]
+  count  = 1
+  name   = format("%s%02s", "pg", count.index + 1)
+  folder = "PostgreSQL"
+  tags   = ["${vsphere_tag.pg.id}", "${vsphere_tag.autostart.id}"]
 
   ipv4_gateway = local.ipv4_gateways.vm
   networks = [
@@ -32,7 +32,7 @@ module "pg" {
   data_disks = [
     {
       "size" : 100,
-      "keep_on_remove": true,
+      "keep_on_remove" : true,
     },
   ]
 }

@@ -15,9 +15,9 @@ module "plex" {
   cores  = 12
   memory = 10240
 
-  name       = "plex01"
-  folder     = "Services"
-  tags       = ["${vsphere_tag.plex.id}", "${vsphere_tag.autostart.id}"]
+  name   = "plex01"
+  folder = "Services"
+  tags   = ["${vsphere_tag.plex.id}", "${vsphere_tag.autostart.id}"]
 
   ipv4_gateway = local.ipv4_gateways.vm
   networks = [

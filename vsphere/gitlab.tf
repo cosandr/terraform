@@ -27,9 +27,9 @@ module "gitlab" {
   cores  = 4
   memory = 8192
 
-  name       = "gitlab01"
-  folder     = "GitLab"
-  tags       = ["${vsphere_tag.gitlab.id}", "${vsphere_tag.autostart.id}"]
+  name   = "gitlab01"
+  folder = "GitLab"
+  tags   = ["${vsphere_tag.gitlab.id}", "${vsphere_tag.autostart.id}"]
 
   ipv4_gateway = local.ipv4_gateways.vm
   networks = [
@@ -59,10 +59,10 @@ module "gitrun" {
   cores  = 4
   memory = 4096
 
-  count      = 2
-  name       = format("%s%02s", "gitrun", count.index + 1)
-  folder     = "GitLab"
-  tags       = ["${vsphere_tag.gitrun.id}", "${vsphere_tag.autostart.id}"]
+  count  = 2
+  name   = format("%s%02s", "gitrun", count.index + 1)
+  folder = "GitLab"
+  tags   = ["${vsphere_tag.gitrun.id}", "${vsphere_tag.autostart.id}"]
 
   ipv4_gateway = local.ipv4_gateways.vm
   networks = [

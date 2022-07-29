@@ -16,27 +16,27 @@ variable "template_name" {
 
 # Optional
 variable "add_mikrotik_dns" {
-  type = bool
+  type    = bool
   default = true
 }
 
 variable "enable_disk_uuid" {
-  type = bool
+  type    = bool
   default = false
 }
 
 variable "extra_config" {
-  type = map
+  type    = map(any)
   default = null
 }
 
 variable "cores" {
-  type = number
+  type    = number
   default = 4
 }
 
 variable "data_disks" {
-  type = list(map(string))
+  type    = list(map(string))
   default = []
 }
 
@@ -49,12 +49,12 @@ variable "folder" {
 }
 
 variable "memory" {
-  type = number
+  type    = number
   default = 4096
 }
 
 variable "os_disk_size" {
-  type = number
+  type    = number
   default = null
 }
 
@@ -63,7 +63,7 @@ variable "storage_policy_id" {
 }
 
 variable "tags" {
-  default = null
+  default     = null
   description = "Optional list of tag IDs to apply"
 }
 
@@ -72,7 +72,7 @@ variable "host_name" {
 }
 
 variable "networks" {
-  type = list(map(string))
+  type    = list(map(string))
   default = []
 }
 
@@ -85,7 +85,7 @@ variable "ipv6_gateway" {
 }
 
 variable "nested_hv_enabled" {
-  type = bool
+  type    = bool
   default = false
 }
 

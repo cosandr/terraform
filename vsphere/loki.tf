@@ -15,10 +15,10 @@ module "loki" {
   cores  = 4
   memory = 4096
 
-  count      = 1
-  name       = format("%s%02s", "loki", count.index + 1)
-  folder     = "Backend"
-  tags       = ["${vsphere_tag.loki.id}", "${vsphere_tag.autostart.id}"]
+  count  = 1
+  name   = format("%s%02s", "loki", count.index + 1)
+  folder = "Backend"
+  tags   = ["${vsphere_tag.loki.id}", "${vsphere_tag.autostart.id}"]
 
   ipv4_gateway = local.ipv4_gateways.vm
   networks = [

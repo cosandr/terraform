@@ -15,9 +15,9 @@ module "nextcloud" {
   cores  = 6
   memory = 6144
 
-  name       = "nextcloud01"
-  folder     = "Services"
-  tags       = ["${vsphere_tag.nextcloud.id}", "${vsphere_tag.autostart.id}"]
+  name   = "nextcloud01"
+  folder = "Services"
+  tags   = ["${vsphere_tag.nextcloud.id}", "${vsphere_tag.autostart.id}"]
 
   ipv4_gateway = local.ipv4_gateways.vm
   networks = [

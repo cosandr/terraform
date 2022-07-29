@@ -16,10 +16,10 @@ module "ovirt" {
   cores  = 4
   memory = 8192
 
-  count      = 3
-  name       = format("%s%02s", "ovirt", count.index + 1)
-  folder     = "oVirt"
-  tags       = ["${vsphere_tag.ovirt.id}"]
+  count  = 3
+  name   = format("%s%02s", "ovirt", count.index + 1)
+  folder = "oVirt"
+  tags   = ["${vsphere_tag.ovirt.id}"]
 
   ipv4_gateway = local.ipv4_gateways.mgmt
   networks = [
@@ -29,7 +29,7 @@ module "ovirt" {
       ipv4_netmask = 24
     },
     {
-      id           = vsphere_distributed_port_group.trunk.id
+      id = vsphere_distributed_port_group.trunk.id
     }
   ]
   data_disks = []

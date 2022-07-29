@@ -15,9 +15,9 @@ module "backup" {
   cores  = 8
   memory = 8192
 
-  name       = "backup01"
-  folder     = "Services"
-  tags       = ["${vsphere_tag.backup.id}", "${vsphere_tag.autostart.id}"]
+  name   = "backup01"
+  folder = "Services"
+  tags   = ["${vsphere_tag.backup.id}", "${vsphere_tag.autostart.id}"]
 
   ipv4_gateway = local.ipv4_gateways.vm
   networks = [

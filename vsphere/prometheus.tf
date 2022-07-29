@@ -15,10 +15,10 @@ module "prometheus" {
   cores  = 4
   memory = 4096
 
-  count      = 1
-  name       = format("%s%02s", "prom", count.index + 1)
-  folder     = "Backend"
-  tags       = ["${vsphere_tag.prometheus.id}", "${vsphere_tag.autostart.id}"]
+  count  = 1
+  name   = format("%s%02s", "prom", count.index + 1)
+  folder = "Backend"
+  tags   = ["${vsphere_tag.prometheus.id}", "${vsphere_tag.autostart.id}"]
 
   ipv4_gateway = local.ipv4_gateways.vm
   networks = [
@@ -32,11 +32,11 @@ module "prometheus" {
   data_disks = [
     {
       "size" : 100,
-      "keep_on_remove": true,
+      "keep_on_remove" : true,
     },
     {
       "size" : 100,
-      "keep_on_remove": true,
+      "keep_on_remove" : true,
     },
   ]
 }

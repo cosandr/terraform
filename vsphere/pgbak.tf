@@ -15,9 +15,9 @@ module "pgbak" {
   cores  = 4
   memory = 4096
 
-  name       = "pgbak01"
-  folder     = "PostgreSQL"
-  tags       = ["${vsphere_tag.pgbak.id}", "${vsphere_tag.autostart.id}"]
+  name   = "pgbak01"
+  folder = "PostgreSQL"
+  tags   = ["${vsphere_tag.pgbak.id}", "${vsphere_tag.autostart.id}"]
 
   ipv4_gateway = local.ipv4_gateways.vm
   networks = [

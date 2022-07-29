@@ -33,10 +33,10 @@ module "elasticsearch" {
   cores  = 4
   memory = 12288
 
-  count      = 3
-  name       = format("%s%02s", "es", count.index + 1)
-  folder     = "ELK"
-  tags       = ["${vsphere_tag.elasticsearch.id}", "${vsphere_tag.autostart.id}"]
+  count  = 3
+  name   = format("%s%02s", "es", count.index + 1)
+  folder = "ELK"
+  tags   = ["${vsphere_tag.elasticsearch.id}", "${vsphere_tag.autostart.id}"]
 
   ipv4_gateway = local.ipv4_gateways.vm
   networks = [
@@ -65,9 +65,9 @@ module "logkib" {
   cores  = 4
   memory = 8192
 
-  name       = "logkib01"
-  folder     = "ELK"
-  tags       = ["${vsphere_tag.logstash.id}", "${vsphere_tag.kibana.id}", "${vsphere_tag.autostart.id}"]
+  name   = "logkib01"
+  folder = "ELK"
+  tags   = ["${vsphere_tag.logstash.id}", "${vsphere_tag.kibana.id}", "${vsphere_tag.autostart.id}"]
 
   ipv4_gateway = local.ipv4_gateways.vm
   networks = [
