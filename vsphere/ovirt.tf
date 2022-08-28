@@ -32,5 +32,6 @@ module "ovirt" {
       id = vsphere_distributed_port_group.trunk.id
     }
   ]
-  data_disks = []
+  os_disk_size = 64
+  data_disks   = []
 }
