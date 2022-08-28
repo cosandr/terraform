@@ -32,6 +32,11 @@ data "vsphere_virtual_machine" "kube_template" {
   datacenter_id = data.vsphere_datacenter.home.id
 }
 
+resource "mikrotik_dns_record" "kube_vip" {
+  name    = "kube-vip.${local.kube_domain}"
+  address = cidrhost(var.vm_net_space, 50)
+}
+
 resource "vsphere_virtual_machine" "kube_master" {
   name             = local.kube_master_name
   resource_pool_id = data.vsphere_resource_pool.home.id
@@ -70,14 +75,14 @@ resource "vsphere_virtual_machine" "kube_master" {
       }
 
       network_interface {
-        ipv4_address = "10.0.10.50"
+        ipv4_address = cidrhost(var.vm_net_space, 51)
         ipv4_netmask = 24
       }
 
-      ipv4_gateway = "10.0.10.1"
+      ipv4_gateway = local.ipv4_gateways.vm
 
       dns_server_list = [
-        "10.0.10.1",
+        local.ipv4_gateways.vm,
         "1.1.1.1",
         "8.8.8.8",
       ]
@@ -88,7 +93,6 @@ resource "vsphere_virtual_machine" "kube_master" {
     ignore_changes = [
       clone[0].template_uuid,
       clone[0].customize[0].linux_options,
-      clone[0].customize[0].network_interface,
       disk,
       network_interface[0].use_static_mac,
     ]
@@ -139,14 +143,14 @@ resource "vsphere_virtual_machine" "kube_worker" {
       }
 
       network_interface {
-        ipv4_address = format("10.0.10.%d", 50 + count.index + 1)
+        ipv4_address = cidrhost(var.vm_net_space, 52 + count.index)
         ipv4_netmask = 24
       }
 
-      ipv4_gateway = "10.0.10.1"
+      ipv4_gateway = local.ipv4_gateways.vm
 
       dns_server_list = [
-        "10.0.10.1",
+        local.ipv4_gateways.vm,
         "1.1.1.1",
         "8.8.8.8",
       ]
@@ -157,7 +161,6 @@ resource "vsphere_virtual_machine" "kube_worker" {
     ignore_changes = [
       clone[0].template_uuid,
       clone[0].customize[0].linux_options,
-      clone[0].customize[0].network_interface,
       disk,
       network_interface[0].use_static_mac,
     ]
