@@ -33,7 +33,7 @@ data "vsphere_virtual_machine" "kube_template" {
 }
 
 resource "mikrotik_dns_record" "kube_vip" {
-  name    = "kube-vip.${local.kube_domain}"
+  name    = "kube-vip.hlab.no"
   address = cidrhost(var.vm_net_space, 50)
 }
 
