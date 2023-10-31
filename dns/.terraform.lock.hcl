@@ -42,3 +42,41 @@ provider "registry.terraform.io/cloudflare/cloudflare" {
     "zh:fa7ffabfe30f6c94f90fa78582a8b5bb4571a079b5aafa4037dc23812dc53339",
   ]
 }
+
+provider "registry.terraform.io/meilleursagents/ansiblevault" {
+  version     = "2.3.0"
+  constraints = "~> 2.3"
+  hashes = [
+    "h1:aBzp/fRhQGu/w1WYG0/iIu5UkI2ZXEgIml+h2T0Oyqs=",
+    "zh:00d4315913bd484d363413adcea363097f0c6bd90131c1eb09a7060b1f1852d2",
+    "zh:3673a4c370e92b3dba5341b4025b2319709127fd203a0525d0d6c9d664d2db2b",
+    "zh:6b3e7854c53a2d0c1068eb19c2eedde541dba4f85133db824a321c479878fcfa",
+    "zh:753bfe2ef70bea7b431d435d6cb5075f3ec33b3e9f1c1d05e843b9ae9a5d2ac5",
+    "zh:77df908b3b42fbbadc4c442f6b523b6e43a0dae5624218631aa4523bfcb080df",
+    "zh:7c2e825280e9c2774f0711aa7b9907bb94ddd250fc2581ec76a33fdc206cc8c7",
+    "zh:85dea106057275b25957cf3b974ac9a767c8e60ba462960ee0bc56ae2aba28bb",
+    "zh:89f54c81201e212782668df3d3d33c0b1e4b6c50111df2d21a401dea80227bea",
+    "zh:9b87fa62b0e06fee85e5522e1064cb30c54f0d26c6acc711b3f69cb8fd8e3ba8",
+    "zh:ae79bfcaa071b2a614a278f877682ccbf347155ede9358632491ed3f2ea1ab0d",
+    "zh:b4fb6a3aaee9b2794d887022c0faa467e706c946fb0c6ab9fdbe1d144cb722f5",
+    "zh:ce5d42800ddd183d560ac41d5a8db2541a0bd18bf1c4ce7d4b1eddf44d135073",
+    "zh:d1807d49a3d0f95062a5920ed9310241cbb137a7efe8823cfa37793ff421a8f9",
+    "zh:d973a61cdda4b715e8719354bbb358792fc2130ca4c1531060c9ca2f7ec43f01",
+  ]
+}
+
+provider "registry.terraform.io/timohirt/hetznerdns" {
+  version     = "2.2.0"
+  constraints = "~> 2.2"
+  hashes = [
+    "h1:HyskQAglrOueur79gSCBgx9MNDOs0tz39aNYQiFgxz8=",
+    "zh:5bb0ab9f62be3ed92070235e507f3c290491d51391ef4edcc70df53b65a83019",
+    "zh:5ccdfac7284f5515ac3cff748336b77f21c64760e429e811a1eeefa8ebb86e12",
+    "zh:687c35665139ae37c291e99085be2e38071f6b355c4e1e8957c5a6a3bcdf9caf",
+    "zh:6de27f0d0d1513b3a4b7e81923b4a8506c52759bd466e2b4f8156997b0478931",
+    "zh:85770a9199a4c2d16ca41538d7a0f7a7bfc060678104a1faac19213e6f0a800c",
+    "zh:a5ff723774a9ccfb27d5766c5e6713537f74dd94496048c89c5d64dba597e59e",
+    "zh:bf9ab76fd37cb8aebb6868d73cbe8c08cee36fc25224cc1ef5949efa3c34b06c",
+    "zh:db998fe3bdcd4902e99fa470bb3f355883170cf4c711c8da0b5f1f4510f1be41",
+  ]
+}
