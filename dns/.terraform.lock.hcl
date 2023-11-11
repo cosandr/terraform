@@ -3,8 +3,9 @@
 
 provider "registry.terraform.io/camptocamp/pass" {
   version     = "2.1.0"
-  constraints = "~> 2.0"
+  constraints = "~> 2.1"
   hashes = [
+    "h1:PJ73gwMA5+hu8wS/dNeJinW2qgU7yzSHCF5xVvnyZU4=",
     "h1:c4hdYvIGf+IH8CKSRX0uaJCr9Wa8pu5QXnyuvyAf3Yk=",
     "zh:12aab76b5866c3d00031c37ad5b21061eb6c2ff165bdc9bbca42c458622d55e2",
     "zh:1c57823a2c1b0c366a583a4ea20757ccc80574efbc889f1017e3968474630ca4",
@@ -25,6 +26,7 @@ provider "registry.terraform.io/cloudflare/cloudflare" {
   constraints = "~> 4.0"
   hashes = [
     "h1:TOmmgRjCbCRpuRfnHwBiHYhAGeV4RujuPBDj5Sj3Eis=",
+    "h1:x/QxOBvb/ZmggiIRMSJVtepar6seEH0JbScUPMjNbmw=",
     "zh:07ad710dbda99ee3254d3d1f490ae367f6b724b58f727d936fd9e5042b4b8e01",
     "zh:2efd112d96bb9eb78ee48baf0a1b00eaeaf63bf4b7ac6319ad0848462b93db21",
     "zh:4db0dd36850609583ad6539a4ccc5397cf9bd25aedb53d0b81f3e4e51002ba44",
@@ -48,6 +50,7 @@ provider "registry.terraform.io/meilleursagents/ansiblevault" {
   constraints = "~> 2.3"
   hashes = [
     "h1:aBzp/fRhQGu/w1WYG0/iIu5UkI2ZXEgIml+h2T0Oyqs=",
+    "h1:g7IQUvFIj7l8CCZ+qXhWkvNK5pQiBxqQySroUy9ubys=",
     "zh:00d4315913bd484d363413adcea363097f0c6bd90131c1eb09a7060b1f1852d2",
     "zh:3673a4c370e92b3dba5341b4025b2319709127fd203a0525d0d6c9d664d2db2b",
     "zh:6b3e7854c53a2d0c1068eb19c2eedde541dba4f85133db824a321c479878fcfa",
@@ -69,6 +72,7 @@ provider "registry.terraform.io/timohirt/hetznerdns" {
   version     = "2.2.0"
   constraints = "~> 2.2"
   hashes = [
+    "h1:9a5BBgc0oi7DjmveI64xEhzW6wv5hQRAc+kmhs3QKyU=",
     "h1:HyskQAglrOueur79gSCBgx9MNDOs0tz39aNYQiFgxz8=",
     "zh:5bb0ab9f62be3ed92070235e507f3c290491d51391ef4edcc70df53b65a83019",
     "zh:5ccdfac7284f5515ac3cff748336b77f21c64760e429e811a1eeefa8ebb86e12",

@@ -5,4 +5,5 @@
 # https://developer.hashicorp.com/terraform/plugin/how-terraform-works#plugin-locations
 # https://developer.hashicorp.com/terraform/internals/credentials-helpers
 
-export TF_TOKEN_app_terraform_io="$(gopass show -o terraform/cloud_token)"
+export AWS_ACCESS_KEY_ID="$(gopass show -o terraform/state_backblaze_id)"
+export AWS_SECRET_ACCESS_KEY="$(gopass show -o terraform/state_backblaze_secret)"

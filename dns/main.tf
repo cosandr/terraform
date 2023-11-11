@@ -1,10 +1,12 @@
 terraform {
-  cloud {
-    organization = "cosandr"
+  backend "s3" {
+    key      = "dns"
+    bucket   = "cosandr-terraform"
+    endpoint = "s3.eu-central-003.backblazeb2.com"
+    region   = "eu-north-1"
 
-    workspaces {
-      name = "dns"
-    }
+    skip_credentials_validation = true
+    skip_metadata_api_check     = true
   }
   required_providers {
     pass = {
