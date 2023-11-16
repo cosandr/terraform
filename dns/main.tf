@@ -2,9 +2,11 @@ terraform {
   backend "s3" {
     key      = "dns"
     bucket   = "cosandr-terraform"
-    endpoint = "s3.eu-central-003.backblazeb2.com"
+    endpoint = "https://s3.eu-central-003.backblazeb2.com"
     region   = "eu-north-1"
 
+    skip_s3_checksum            = true
+    skip_requesting_account_id  = true
     skip_credentials_validation = true
     skip_metadata_api_check     = true
   }
@@ -140,7 +142,7 @@ resource "hetznerdns_record" "drepi" {
   zone_id = hetznerdns_zone.this["hb"].id
   name    = "drepi"
   # This is absolutely disgusting, but I couldn't find a good solution
-  value = regex("(?m)^drepi.*ansible_host=(\\S+)", file("../../ansible/inventory/hosts"))[0]
+  value = regex("(?m)^drepi.*ansible_host=\"?([^ \"]+)?", file("../../ansible/inventory/hosts"))[0]
   type  = "A"
   ttl   = 3600
 }
