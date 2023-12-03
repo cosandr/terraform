@@ -72,53 +72,23 @@ resource "cloudflare_record" "gmail_ti" {
   priority = lookup(each.value, "priority", null)
 }
 
+resource "cloudflare_record" "gmail_hb" {
+  for_each = local.gmail_records
+
+  zone_id  = cloudflare_zone.this["hb"].id
+  name     = lookup(each.value, "name", local.domains["hb"])
+  value    = each.value["value"]
+  type     = each.value["type"]
+  ttl      = lookup(each.value, "ttl", 3600)
+  priority = lookup(each.value, "priority", null)
+}
+
 resource "cloudflare_record" "dkim" {
-  for_each = {
-    for k, v in local.domains : k => v if contains(local.cf_domains, k)
-  }
+  for_each = local.domains
 
   zone_id = cloudflare_zone.this[each.key].id
   name    = "google._domainkey"
   value   = data.pass_password.dkim_keys[each.key].password
   type    = "TXT"
   ttl     = 3600
-}
-
-resource "hetznerdns_record" "gmail_hb_mx" {
-  for_each = {
-    for k, v in local.gmail_records : k => v if v["type"] == "MX"
-  }
-
-  zone_id = hetznerdns_zone.this["hb"].id
-  name    = "@"
-  value   = format("%s %s.", each.value["priority"], each.value["value"])
-  type    = each.value["type"]
-  ttl     = 3600
-}
-
-resource "hetznerdns_record" "gmail_hb_spf" {
-  zone_id = hetznerdns_zone.this["hb"].id
-  name    = "@"
-  value   = format("\"%s\"", local.gmail_records["spf"].value)
-  type    = "TXT"
-  ttl     = 3600
-}
-
-resource "hetznerdns_record" "dkim" {
-  for_each = {
-    for k, v in local.domains : k => v if contains(local.hetzner_domains, k)
-  }
-
-  zone_id = hetznerdns_zone.this[each.key].id
-  name    = "google._domainkey"
-  value   = format("\"%s\"", data.pass_password.dkim_keys[each.key].password)
-  type    = "TXT"
-  ttl     = 3600
-
-  lifecycle {
-    # REMOVE IF KEY CHANGES.
-    # Weird behavior where the value gets split in half at some point
-    # and terraform wants to change it every time.
-    ignore_changes = [value]
-  }
 }

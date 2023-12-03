@@ -19,14 +19,6 @@ terraform {
       source  = "cloudflare/cloudflare"
       version = "~> 4.0"
     }
-    hetznerdns = {
-      source  = "timohirt/hetznerdns"
-      version = "~> 2.2"
-    }
-    ansiblevault = {
-      source  = "MeilleursAgents/ansiblevault"
-      version = "~> 2.3"
-    }
   }
 }
 
@@ -34,42 +26,21 @@ provider "cloudflare" {
   api_token = data.pass_password.cloudflare.password
 }
 
-provider "hetznerdns" {
-  apitoken = data.pass_password.hetzner.password
-}
-
-provider "ansiblevault" {
-  vault_pass  = data.pass_password.ansible_vault.password
-  root_folder = "../../ansible"
-}
-
 data "pass_password" "cloudflare" {
-  path = "ansible/cf_token"
-}
-
-data "pass_password" "hetzner" {
-  path = "terraform/hetzner_token"
+  path = "terraform/cf_token"
 }
 
 data "pass_password" "domains" {
   path = "terraform/domain_map"
 }
 
-data "pass_password" "ansible_vault" {
-  path = "ansible/vault_pass"
-}
-
 locals {
-  domains         = jsondecode(data.pass_password.domains.full)
-  webgw           = format("webgw01.%s", local.domains["hb"]) # TODO: Refer to Hetzner resource
-  cf_domains      = ["dv", "ti", "cu"]
-  hetzner_domains = ["hb"]
+  domains = jsondecode(data.pass_password.domains.full)
+  webgw   = format("webgw01.%s", local.domains["hb"])
 }
 
 resource "cloudflare_zone" "this" {
-  for_each = {
-    for k, v in local.domains : k => v if contains(local.cf_domains, k)
-  }
+  for_each = local.domains
 
   account_id = var.cf_account_id
   zone       = each.value
@@ -129,32 +100,30 @@ resource "cloudflare_record" "local_ti" {
   ttl     = 300
 }
 
-resource "hetznerdns_zone" "this" {
-  for_each = {
-    for k, v in local.domains : k => v if contains(local.hetzner_domains, k)
+data "external" "drepi" {
+  program = ["${path.module}/ansible-inventory.sh"]
+  query = {
+    host  = "drepi"
+    query = "{\"value\": .ansible_host}"
   }
-
-  name = each.value
-  ttl  = 86400
 }
 
-resource "hetznerdns_record" "drepi" {
-  zone_id = hetznerdns_zone.this["hb"].id
+resource "cloudflare_record" "drepi" {
+  zone_id = cloudflare_zone.this["hb"].id
   name    = "drepi"
-  # This is absolutely disgusting, but I couldn't find a good solution
-  value = regex("(?m)^drepi.*ansible_host=\"?([^ \"]+)?", file("../../ansible/inventory/hosts"))[0]
-  type  = "A"
-  ttl   = 3600
+  value   = data.external.drepi.result.value
+  type    = "A"
+  ttl     = 3600
 }
 
-resource "hetznerdns_record" "webgw_hb" {
+resource "cloudflare_record" "webgw_hb" {
   for_each = toset([
     "grafana",
   ])
 
-  zone_id = hetznerdns_zone.this["hb"].id
+  zone_id = cloudflare_zone.this["hb"].id
   name    = each.key
-  value   = format("%s.", local.webgw)
+  value   = local.webgw
   type    = "CNAME"
   ttl     = 300
 }
