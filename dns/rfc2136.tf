@@ -28,6 +28,7 @@ resource "cloudflare_record" "rfc2136_hb_subdomains" {
   for_each = toset([
     "ha",
     "drepi",
+    "talos",
   ])
 
   zone_id = cloudflare_zone.this["hb"].id
