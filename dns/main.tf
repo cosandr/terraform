@@ -35,8 +35,9 @@ data "pass_password" "domains" {
 }
 
 locals {
-  domains = jsondecode(data.pass_password.domains.full)
-  webgw   = format("webgw01.%s", local.domains["hb"])
+  domains   = jsondecode(data.pass_password.domains.full)
+  webgw     = format("webgw01.%s", local.domains["hb"])
+  webgw_k8s = format("webgw-k8s.%s", local.domains["hb"])
 }
 
 resource "cloudflare_zone" "this" {
