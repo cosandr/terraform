@@ -11,7 +11,7 @@ resource "cloudflare_record" "webgw01" {
 
   zone_id = cloudflare_zone.this["hb"].id
   name    = "webgw01"
-  value   = each.value
+  content = each.value
   type    = upper(each.key)
   ttl     = 86400
 }

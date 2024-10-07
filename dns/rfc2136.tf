@@ -19,7 +19,7 @@ resource "cloudflare_record" "rfc2136" {
 
   zone_id = cloudflare_zone.this[each.key].id
   name    = "_acme-challenge"
-  value   = "${each.value}.${data.external.rfc2136_domain.result.value}"
+  content = "${each.value}.${data.external.rfc2136_domain.result.value}"
   type    = "CNAME"
   ttl     = 3600
 }
@@ -33,7 +33,7 @@ resource "cloudflare_record" "rfc2136_hb_subdomains" {
 
   zone_id = cloudflare_zone.this["hb"].id
   name    = "_acme-challenge.${each.key}"
-  value   = format("%s.%s", data.external.rfc2136_domain_map.result["hb"], data.external.rfc2136_domain.result.value)
+  content = format("%s.%s", data.external.rfc2136_domain_map.result["hb"], data.external.rfc2136_domain.result.value)
   type    = "CNAME"
   ttl     = 3600
 }

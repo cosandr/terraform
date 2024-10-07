@@ -61,7 +61,7 @@ resource "cloudflare_record" "webgw_dv" {
 
   zone_id = cloudflare_zone.this["dv"].id
   name    = each.key
-  value   = local.webgw
+  content = local.webgw
   type    = "CNAME"
   ttl     = 300
 }
@@ -74,7 +74,7 @@ resource "cloudflare_record" "webgw_ti" {
 
   zone_id = cloudflare_zone.this["ti"].id
   name    = each.key
-  value   = local.webgw
+  content = local.webgw
   type    = "CNAME"
   ttl     = 300
 }
@@ -82,7 +82,7 @@ resource "cloudflare_record" "webgw_ti" {
 resource "cloudflare_record" "romgw" {
   zone_id = cloudflare_zone.this["ti"].id
   name    = "romgw01"
-  value   = "10.1.0.91"
+  content = "10.1.0.91"
   type    = "A"
   ttl     = 300
 }
@@ -95,7 +95,7 @@ resource "cloudflare_record" "local_ti" {
 
   zone_id = cloudflare_zone.this["ti"].id
   name    = each.key
-  value   = cloudflare_record.romgw.hostname
+  content = cloudflare_record.romgw.hostname
   type    = "CNAME"
   ttl     = 300
 }
@@ -111,7 +111,7 @@ data "external" "drepi" {
 resource "cloudflare_record" "drepi" {
   zone_id = cloudflare_zone.this["hb"].id
   name    = "drepi"
-  value   = data.external.drepi.result.value
+  content = data.external.drepi.result.value
   type    = "A"
   ttl     = 3600
 }
@@ -123,7 +123,7 @@ resource "cloudflare_record" "webgw_hb" {
 
   zone_id = cloudflare_zone.this["hb"].id
   name    = each.key
-  value   = local.webgw
+  content = local.webgw
   type    = "CNAME"
   ttl     = 300
 }
@@ -139,7 +139,7 @@ data "external" "talos_cp" {
 resource "cloudflare_record" "talos_cp" {
   zone_id = cloudflare_zone.this["hb"].id
   name    = "talos"
-  value   = data.external.talos_cp.result.value
+  content = data.external.talos_cp.result.value
   type    = "A"
   ttl     = 3600
 }

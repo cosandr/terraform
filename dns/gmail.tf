@@ -44,7 +44,7 @@ resource "cloudflare_record" "gmail_cu" {
 
   zone_id  = cloudflare_zone.this["cu"].id
   name     = lookup(each.value, "name", local.domains["cu"])
-  value    = each.value["value"]
+  content  = each.value["value"]
   type     = each.value["type"]
   ttl      = lookup(each.value, "ttl", 3600)
   priority = lookup(each.value, "priority", null)
@@ -55,7 +55,7 @@ resource "cloudflare_record" "gmail_dv" {
 
   zone_id  = cloudflare_zone.this["dv"].id
   name     = lookup(each.value, "name", local.domains["dv"])
-  value    = each.value["value"]
+  content  = each.value["value"]
   type     = each.value["type"]
   ttl      = lookup(each.value, "ttl", 3600)
   priority = lookup(each.value, "priority", null)
@@ -66,7 +66,7 @@ resource "cloudflare_record" "gmail_ti" {
 
   zone_id  = cloudflare_zone.this["ti"].id
   name     = lookup(each.value, "name", local.domains["ti"])
-  value    = each.value["value"]
+  content  = each.value["value"]
   type     = each.value["type"]
   ttl      = lookup(each.value, "ttl", 3600)
   priority = lookup(each.value, "priority", null)
@@ -77,7 +77,7 @@ resource "cloudflare_record" "gmail_hb" {
 
   zone_id  = cloudflare_zone.this["hb"].id
   name     = lookup(each.value, "name", local.domains["hb"])
-  value    = each.value["value"]
+  content  = each.value["value"]
   type     = each.value["type"]
   ttl      = lookup(each.value, "ttl", 3600)
   priority = lookup(each.value, "priority", null)
@@ -88,7 +88,7 @@ resource "cloudflare_record" "dkim" {
 
   zone_id = cloudflare_zone.this[each.key].id
   name    = "google._domainkey"
-  value   = data.pass_password.dkim_keys[each.key].password
+  content = data.pass_password.dkim_keys[each.key].password
   type    = "TXT"
   ttl     = 3600
 }
