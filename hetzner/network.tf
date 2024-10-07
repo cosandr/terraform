@@ -24,3 +24,14 @@ resource "hcloud_primary_ip" "webgw" {
     prevent_destroy = true
   }
 }
+
+resource "hcloud_floating_ip" "webgw_k8s" {
+  name              = "webgw-k8s"
+  type              = "ipv4"
+  server_id         = hcloud_server.webgw01.id
+  delete_protection = true
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
