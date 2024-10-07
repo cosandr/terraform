@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+[ "${FLOCKER}" != "$0" ] && exec env FLOCKER="$0" flock -e "$0" "$0" "$@" || :
+
 set -e
 
 cd ../../ansible || exit 2
