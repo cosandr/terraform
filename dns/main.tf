@@ -90,7 +90,6 @@ resource "cloudflare_record" "romgw" {
 resource "cloudflare_record" "local_ti" {
   for_each = toset([
     "ha",
-    "photoprism",
   ])
 
   zone_id = cloudflare_zone.this["ti"].id
