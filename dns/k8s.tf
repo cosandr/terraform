@@ -1,6 +1,7 @@
 resource "cloudflare_record" "k8s_dv" {
   for_each = toset([
     "immich",
+    "jellyfin",
   ])
 
   zone_id = cloudflare_zone.this["dv"].id

@@ -53,7 +53,6 @@ resource "cloudflare_record" "webgw_dv" {
     "cloud",
     local.domains["dv"],
     "gitlab",
-    "jellyfin",
     "login",
     "plex",
     "registry",
