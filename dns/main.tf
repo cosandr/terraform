@@ -54,7 +54,6 @@ resource "cloudflare_record" "webgw_dv" {
     local.domains["dv"],
     "gitlab",
     "login",
-    "plex",
     "registry",
     "www",
   ])
