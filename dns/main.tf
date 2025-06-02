@@ -113,6 +113,22 @@ resource "cloudflare_record" "drepi" {
   ttl     = 3600
 }
 
+data "external" "litr" {
+  program = ["${path.module}/ansible-inventory.sh"]
+  query = {
+    host  = "litr"
+    query = "{\"value\": .ansible_host}"
+  }
+}
+
+resource "cloudflare_record" "smtp" {
+  zone_id = cloudflare_zone.this["hb"].id
+  name    = "smtp"
+  content = data.external.litr.result.value
+  type    = "A"
+  ttl     = 3600
+}
+
 resource "cloudflare_record" "webgw_hb" {
   for_each = toset([
     "grafana",

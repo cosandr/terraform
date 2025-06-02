@@ -26,8 +26,9 @@ resource "cloudflare_record" "rfc2136" {
 
 resource "cloudflare_record" "rfc2136_hb_subdomains" {
   for_each = toset([
-    "ha",
     "drepi",
+    "ha",
+    "smtp",
     "talos",
   ])
 
