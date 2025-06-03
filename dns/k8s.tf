@@ -2,6 +2,7 @@ resource "cloudflare_record" "k8s_dv" {
   for_each = toset([
     "audiobookshelf",
     "jellyfin",
+    "open-webui",
     "plex",
   ])
 
