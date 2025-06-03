@@ -1,6 +1,6 @@
 resource "cloudflare_record" "k8s_dv" {
   for_each = toset([
-    "immich",
+    "audiobookshelf",
     "jellyfin",
     "plex",
   ])
