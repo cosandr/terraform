@@ -92,3 +92,14 @@ resource "cloudflare_record" "dkim" {
   type    = "TXT"
   ttl     = 3600
 }
+
+resource "cloudflare_record" "dmarc" {
+  for_each = local.domains
+
+  zone_id = cloudflare_zone.this[each.key].id
+  name    = "_dmarc"
+  # https://support.google.com/a/answer/2466580?hl=en#zippy=%2Cdmarc-record-tag-definitions-and-values
+  content = "v=DMARC1; p=none; rua=mailto:dmarc@${each.value}; pct=100; adkim=s; aspf=s"
+  type    = "TXT"
+  ttl     = 3600
+}
