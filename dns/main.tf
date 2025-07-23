@@ -97,34 +97,18 @@ resource "cloudflare_record" "local_ti" {
   ttl     = 300
 }
 
-data "external" "drepi" {
+data "external" "webgw_wg" {
   program = ["${path.module}/ansible-inventory.sh"]
   query = {
-    host  = "drepi"
-    query = "{\"value\": .ansible_host}"
-  }
-}
-
-resource "cloudflare_record" "drepi" {
-  zone_id = cloudflare_zone.this["hb"].id
-  name    = "drepi"
-  content = data.external.drepi.result.value
-  type    = "A"
-  ttl     = 3600
-}
-
-data "external" "litr" {
-  program = ["${path.module}/ansible-inventory.sh"]
-  query = {
-    host  = "litr"
-    query = "{\"value\": .ansible_host}"
+    host  = "webgw01"
+    query = "{\"value\": .wireguard_ip}"
   }
 }
 
 resource "cloudflare_record" "smtp" {
   zone_id = cloudflare_zone.this["hb"].id
   name    = "smtp"
-  content = data.external.litr.result.value
+  content = data.external.webgw_wg.result.value
   type    = "A"
   ttl     = 3600
 }
