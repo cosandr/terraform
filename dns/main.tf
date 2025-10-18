@@ -47,6 +47,14 @@ resource "cloudflare_zone" "this" {
   zone       = each.value
 }
 
+resource "cloudflare_record" "ha_ti" {
+  zone_id = cloudflare_zone.this["ti"].id
+  name    = "ha"
+  content = "10.1.0.48"
+  type    = "A"
+  ttl     = 300
+}
+
 resource "cloudflare_record" "webgw_dv" {
   for_each = toset([
     "admin",
@@ -60,39 +68,6 @@ resource "cloudflare_record" "webgw_dv" {
   zone_id = cloudflare_zone.this["dv"].id
   name    = each.key
   content = local.webgw
-  type    = "CNAME"
-  ttl     = 300
-}
-
-resource "cloudflare_record" "webgw_ti" {
-  for_each = toset([
-    "*",
-    local.domains["ti"],
-  ])
-
-  zone_id = cloudflare_zone.this["ti"].id
-  name    = each.key
-  content = local.webgw
-  type    = "CNAME"
-  ttl     = 300
-}
-
-resource "cloudflare_record" "romgw" {
-  zone_id = cloudflare_zone.this["ti"].id
-  name    = "romgw01"
-  content = "10.1.0.91"
-  type    = "A"
-  ttl     = 300
-}
-
-resource "cloudflare_record" "local_ti" {
-  for_each = toset([
-    "ha",
-  ])
-
-  zone_id = cloudflare_zone.this["ti"].id
-  name    = each.key
-  content = cloudflare_record.romgw.hostname
   type    = "CNAME"
   ttl     = 300
 }

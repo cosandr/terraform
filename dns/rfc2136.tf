@@ -38,3 +38,15 @@ resource "cloudflare_record" "rfc2136_hb_subdomains" {
   type    = "CNAME"
   ttl     = 3600
 }
+
+resource "cloudflare_record" "rfc2136_ti_subdomains" {
+  for_each = toset([
+    "ha",
+  ])
+
+  zone_id = cloudflare_zone.this["ti"].id
+  name    = "_acme-challenge.${each.key}"
+  content = format("%s.%s", data.external.rfc2136_domain_map.result["ti"], data.external.rfc2136_domain.result.value)
+  type    = "CNAME"
+  ttl     = 3600
+}
