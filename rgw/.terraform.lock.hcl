@@ -5,6 +5,7 @@ provider "registry.terraform.io/camptocamp/pass" {
   version     = "2.1.1"
   constraints = "~> 2.1"
   hashes = [
+    "h1:Cqqf55av0+tcfhXXYhZYEjJze4lR5mpV9JALW2cISD8=",
     "h1:b26FFbTyOIKCeqpAjnBzLZU1S9jU7XE9U+3+NOxtAq0=",
     "zh:2ec5926b48526bc23b99f26dd18138811f6b1f1f81125bce75e841020b58350c",
     "zh:32448b55d615ffc4924aab08c5fdea57102cc0f2752003e81367e7d05d42ce9a",
@@ -25,6 +26,7 @@ provider "registry.terraform.io/hashicorp/aws" {
   constraints = "< 5.70.0"
   hashes = [
     "h1:Ccpjmuu4G6k6ET0yf9lfhRywN7GBAAxR4rfTl5aY5+U=",
+    "h1:unGIj/eLOrl42LQm7u0fjtjQHp+FHKinpSxR1ZuWsfI=",
     "zh:123af8815a80abfd62eab5f9fc3d9226735cfea3627e834a1b48321cd8d391a6",
     "zh:1298f312e239768c1846541e89b4fbec7eb21769c4a488c87181909049219fbe",
     "zh:4edc950b39f3653beb8cd3e0b86a7dc9b6a77e90e543ed7be72639107bbc48a9",
