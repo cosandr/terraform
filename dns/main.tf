@@ -88,18 +88,6 @@ resource "cloudflare_record" "smtp" {
   ttl     = 3600
 }
 
-resource "cloudflare_record" "webgw_hb" {
-  for_each = toset([
-    "grafana",
-  ])
-
-  zone_id = cloudflare_zone.this["hb"].id
-  name    = each.key
-  content = local.webgw
-  type    = "CNAME"
-  ttl     = 300
-}
-
 data "external" "talos_cp" {
   program = ["${path.module}/ansible-inventory.sh"]
   query = {
