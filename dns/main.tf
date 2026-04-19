@@ -57,6 +57,7 @@ resource "cloudflare_record" "ha_ti" {
 
 resource "cloudflare_record" "webgw_dv" {
   for_each = toset([
+    "abs",
     "admin",
     "cloud",
     local.domains["dv"],
