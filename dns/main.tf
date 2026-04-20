@@ -58,12 +58,13 @@ resource "cloudflare_record" "ha_ti" {
 resource "cloudflare_record" "webgw_dv" {
   for_each = toset([
     "abs",
-    "admin",
     "cloud",
-    local.domains["dv"],
     "gitlab",
+    "jellyfin",
+    "plex",
     "registry",
     "www",
+    local.domains["dv"],
   ])
 
   zone_id = cloudflare_zone.this["dv"].id
