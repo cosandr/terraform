@@ -35,9 +35,12 @@ data "pass_password" "domains" {
 }
 
 locals {
-  domains   = jsondecode(data.pass_password.domains.full)
-  webgw     = format("webgw01.%s", local.domains["hb"])
-  webgw_k8s = format("webgw-k8s.%s", local.domains["hb"])
+  domains      = jsondecode(data.pass_password.domains.full)
+  webgw        = format("webgw01.%s", local.domains["hb"])
+  webgw_docker = format("%s.%s", cloudflare_record.webgw_pip_v6["docker"].name, local.domains["hb"])
+  webgw_gitlab = format("%s.%s", cloudflare_record.webgw_pip_v6["gitlab"].name, local.domains["hb"])
+  webgw_k8s    = format("%s.%s", cloudflare_record.webgw_pip_v6["k8s"].name, local.domains["hb"])
+  webgw_nginx  = format("%s.%s", cloudflare_record.webgw_pip_v6["nginx"].name, local.domains["hb"])
 }
 
 resource "cloudflare_zone" "this" {
@@ -69,7 +72,7 @@ resource "cloudflare_record" "webgw_dv" {
 
   zone_id = cloudflare_zone.this["dv"].id
   name    = each.key
-  content = local.webgw
+  content = local.webgw_nginx
   type    = "CNAME"
   ttl     = 300
 }
