@@ -62,10 +62,8 @@ resource "cloudflare_record" "webgw_dv" {
   for_each = toset([
     "abs",
     "cloud",
-    "gitlab",
     "jellyfin",
     "plex",
-    "registry",
     "www",
     local.domains["dv"],
   ])
@@ -73,6 +71,19 @@ resource "cloudflare_record" "webgw_dv" {
   zone_id = cloudflare_zone.this["dv"].id
   name    = each.key
   content = local.webgw_nginx
+  type    = "CNAME"
+  ttl     = 300
+}
+
+resource "cloudflare_record" "webgw_gitlab" {
+  for_each = toset([
+    "gitlab",
+    "registry",
+  ])
+
+  zone_id = cloudflare_zone.this["dv"].id
+  name    = each.key
+  content = local.webgw_gitlab
   type    = "CNAME"
   ttl     = 300
 }
