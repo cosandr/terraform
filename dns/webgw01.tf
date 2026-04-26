@@ -16,24 +16,6 @@ resource "cloudflare_record" "webgw01" {
   ttl     = 3600
 }
 
-data "external" "webgw_k8s" {
-  program = ["${path.module}/ansible-inventory.sh"]
-  query = {
-    host  = "webgw01"
-    query = "{\"a\": .vault_pip_k8s_v4}"
-  }
-}
-
-resource "cloudflare_record" "webgw_k8s" {
-  for_each = data.external.webgw_k8s.result
-
-  zone_id = cloudflare_zone.this["hb"].id
-  name    = "webgw-k8s"
-  content = each.value
-  type    = upper(each.key)
-  ttl     = 3600
-}
-
 data "external" "webgw_pip_v6" {
   program = ["${path.module}/ansible-inventory.sh"]
   query = {
@@ -53,7 +35,7 @@ resource "cloudflare_record" "webgw_pip_v6" {
 }
 
 resource "cloudflare_record" "webgw_pip_v4" {
-  for_each = { for k, v in data.external.webgw_pip_v6.result : k => v if k != "k8s" }
+  for_each = data.external.webgw_pip_v6.result
 
   zone_id = cloudflare_zone.this["hb"].id
   name    = "webgw-${each.key}"
