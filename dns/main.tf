@@ -39,7 +39,6 @@ locals {
   webgw        = format("webgw01.%s", local.domains["hb"])
   webgw_docker = format("%s.%s", cloudflare_record.webgw_pip_v6["docker"].name, local.domains["hb"])
   webgw_gitlab = format("%s.%s", cloudflare_record.webgw_pip_v6["gitlab"].name, local.domains["hb"])
-  webgw_k8s    = format("%s.%s", cloudflare_record.webgw_pip_v6["k8s"].name, local.domains["hb"])
   webgw_nginx  = format("%s.%s", cloudflare_record.webgw_pip_v6["nginx"].name, local.domains["hb"])
 }
 
@@ -88,6 +87,7 @@ resource "cloudflare_record" "webgw_gitlab" {
 resource "cloudflare_record" "webgw_docker" {
   for_each = toset([
     "abs",
+    "immich",
     "jellyfin",
     "plex",
   ])
