@@ -114,19 +114,3 @@ resource "cloudflare_record" "smtp" {
   type    = "A"
   ttl     = 3600
 }
-
-data "external" "talos_cp" {
-  program = ["${path.module}/ansible-inventory.sh"]
-  query = {
-    host  = "talos01"
-    query = "{\"value\": .vips.talos.control_plane[0]}"
-  }
-}
-
-resource "cloudflare_record" "talos_cp" {
-  zone_id = cloudflare_zone.this["hb"].id
-  name    = "talos"
-  content = data.external.talos_cp.result.value
-  type    = "A"
-  ttl     = 3600
-}

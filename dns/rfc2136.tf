@@ -29,7 +29,6 @@ resource "cloudflare_record" "rfc2136_hb_subdomains" {
     "drepi",
     "ha",
     "smtp",
-    "talos",
   ])
 
   zone_id = cloudflare_zone.this["hb"].id
