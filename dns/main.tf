@@ -87,6 +87,7 @@ resource "cloudflare_record" "webgw_gitlab" {
 resource "cloudflare_record" "webgw_docker" {
   for_each = toset([
     "abs",
+    "dawarich",
     "immich",
     "jellyfin",
     "plex",
