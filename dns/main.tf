@@ -1,9 +1,11 @@
 terraform {
   backend "s3" {
-    key      = "dns"
-    bucket   = "cosandr-terraform"
-    endpoint = "https://s3.eu-central-003.backblazeb2.com"
-    region   = "eu-north-1"
+    key    = "dns"
+    bucket = "cosandr-terraform"
+    endpoints = {
+      s3 = "https://s3.eu-central-003.backblazeb2.com"
+    }
+    region = "eu-north-1"
 
     skip_s3_checksum            = true
     skip_requesting_account_id  = true
