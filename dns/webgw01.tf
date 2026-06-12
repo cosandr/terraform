@@ -6,7 +6,7 @@ data "external" "webgw_addresses" {
   }
 }
 
-resource "cloudflare_record" "webgw01" {
+resource "cloudflare_dns_record" "webgw01" {
   for_each = data.external.webgw_addresses.result
 
   zone_id = cloudflare_zone.this["hb"].id
@@ -24,7 +24,7 @@ data "external" "webgw_pip_v6" {
   }
 }
 
-resource "cloudflare_record" "webgw_pip_v6" {
+resource "cloudflare_dns_record" "webgw_pip_v6" {
   for_each = data.external.webgw_pip_v6.result
 
   zone_id = cloudflare_zone.this["hb"].id
@@ -34,7 +34,7 @@ resource "cloudflare_record" "webgw_pip_v6" {
   ttl     = 3600
 }
 
-resource "cloudflare_record" "webgw_pip_v4" {
+resource "cloudflare_dns_record" "webgw_pip_v4" {
   for_each = data.external.webgw_pip_v6.result
 
   zone_id = cloudflare_zone.this["hb"].id

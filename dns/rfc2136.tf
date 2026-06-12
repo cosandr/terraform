@@ -14,7 +14,7 @@ data "external" "rfc2136_domain_map" {
   }
 }
 
-resource "cloudflare_record" "rfc2136" {
+resource "cloudflare_dns_record" "rfc2136" {
   for_each = data.external.rfc2136_domain_map.result
 
   zone_id = cloudflare_zone.this[each.key].id
@@ -24,7 +24,7 @@ resource "cloudflare_record" "rfc2136" {
   ttl     = 3600
 }
 
-resource "cloudflare_record" "rfc2136_hb_subdomains" {
+resource "cloudflare_dns_record" "rfc2136_hb_subdomains" {
   for_each = toset([
     "drepi",
     "ha",
@@ -38,7 +38,7 @@ resource "cloudflare_record" "rfc2136_hb_subdomains" {
   ttl     = 3600
 }
 
-resource "cloudflare_record" "rfc2136_ti_subdomains" {
+resource "cloudflare_dns_record" "rfc2136_ti_subdomains" {
   for_each = toset([
     "ha",
   ])

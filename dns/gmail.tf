@@ -39,7 +39,7 @@ locals {
   }
 }
 
-resource "cloudflare_record" "gmail_cu" {
+resource "cloudflare_dns_record" "gmail_cu" {
   for_each = local.gmail_records
 
   zone_id  = cloudflare_zone.this["cu"].id
@@ -50,7 +50,7 @@ resource "cloudflare_record" "gmail_cu" {
   priority = lookup(each.value, "priority", null)
 }
 
-resource "cloudflare_record" "gmail_dv" {
+resource "cloudflare_dns_record" "gmail_dv" {
   for_each = local.gmail_records
 
   zone_id  = cloudflare_zone.this["dv"].id
@@ -61,7 +61,7 @@ resource "cloudflare_record" "gmail_dv" {
   priority = lookup(each.value, "priority", null)
 }
 
-resource "cloudflare_record" "gmail_ti" {
+resource "cloudflare_dns_record" "gmail_ti" {
   for_each = local.gmail_records
 
   zone_id  = cloudflare_zone.this["ti"].id
@@ -72,7 +72,7 @@ resource "cloudflare_record" "gmail_ti" {
   priority = lookup(each.value, "priority", null)
 }
 
-resource "cloudflare_record" "gmail_hb" {
+resource "cloudflare_dns_record" "gmail_hb" {
   for_each = local.gmail_records
 
   zone_id  = cloudflare_zone.this["hb"].id
@@ -83,7 +83,7 @@ resource "cloudflare_record" "gmail_hb" {
   priority = lookup(each.value, "priority", null)
 }
 
-resource "cloudflare_record" "dkim" {
+resource "cloudflare_dns_record" "dkim" {
   for_each = local.domains
 
   zone_id = cloudflare_zone.this[each.key].id
@@ -93,7 +93,7 @@ resource "cloudflare_record" "dkim" {
   ttl     = 3600
 }
 
-resource "cloudflare_record" "dmarc" {
+resource "cloudflare_dns_record" "dmarc" {
   for_each = local.domains
 
   zone_id = cloudflare_zone.this[each.key].id

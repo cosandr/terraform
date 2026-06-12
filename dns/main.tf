@@ -17,7 +17,7 @@ terraform {
     }
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = "~> 4.0"
+      version = "~> 5.0"
     }
   }
 }
@@ -37,19 +37,21 @@ data "pass_password" "domains" {
 locals {
   domains      = jsondecode(data.pass_password.domains.full)
   webgw        = format("webgw01.%s", local.domains["hb"])
-  webgw_docker = format("%s.%s", cloudflare_record.webgw_pip_v6["docker"].name, local.domains["hb"])
-  webgw_gitlab = format("%s.%s", cloudflare_record.webgw_pip_v6["gitlab"].name, local.domains["hb"])
-  webgw_nginx  = format("%s.%s", cloudflare_record.webgw_pip_v6["nginx"].name, local.domains["hb"])
+  webgw_docker = cloudflare_dns_record.webgw_pip_v6["docker"].name
+  webgw_gitlab = cloudflare_dns_record.webgw_pip_v6["gitlab"].name
+  webgw_nginx  = cloudflare_dns_record.webgw_pip_v6["nginx"].name
 }
 
 resource "cloudflare_zone" "this" {
   for_each = local.domains
 
-  account_id = var.cf_account_id
-  zone       = each.value
+  name = each.value
+  account = {
+    id = var.cf_account_id
+  }
 }
 
-resource "cloudflare_record" "ha_ti" {
+resource "cloudflare_dns_record" "ha_ti" {
   zone_id = cloudflare_zone.this["ti"].id
   name    = "ha"
   content = "10.1.0.48"
@@ -57,7 +59,7 @@ resource "cloudflare_record" "ha_ti" {
   ttl     = 300
 }
 
-resource "cloudflare_record" "webgw_dv" {
+resource "cloudflare_dns_record" "webgw_dv" {
   for_each = toset([
     "cloud",
     "www",
@@ -71,7 +73,7 @@ resource "cloudflare_record" "webgw_dv" {
   ttl     = 300
 }
 
-resource "cloudflare_record" "webgw_gitlab" {
+resource "cloudflare_dns_record" "webgw_gitlab" {
   for_each = toset([
     "gitlab",
     "registry",
@@ -84,7 +86,7 @@ resource "cloudflare_record" "webgw_gitlab" {
   ttl     = 300
 }
 
-resource "cloudflare_record" "webgw_docker" {
+resource "cloudflare_dns_record" "webgw_docker" {
   for_each = toset([
     "abs",
     "dawarich",
@@ -108,7 +110,7 @@ data "external" "webgw_wg" {
   }
 }
 
-resource "cloudflare_record" "smtp" {
+resource "cloudflare_dns_record" "smtp" {
   zone_id = cloudflare_zone.this["hb"].id
   name    = "smtp"
   content = data.external.webgw_wg.result.value
