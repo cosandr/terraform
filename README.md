@@ -5,5 +5,11 @@ Gopass must be setup.
 Initialize backend
 
 ```sh
-terraform init -backend-config="conn_str=postgres://terraform:$(gopass show -o terraform/pg_pass)@pg01.hlab.no/terraform"
+source env.sh
+terraform init
+```
+
+When updating lock file, use:
+```sh
+terraform providers lock -platform=linux_amd64 -platform=darwin_arm64
 ```
