@@ -83,6 +83,7 @@ resource "cloudflare_dns_record" "gmail_hb" {
   priority = lookup(each.value, "priority", null)
 }
 
+# Keep while configuring both CF and deSEC
 resource "cloudflare_dns_record" "dkim" {
   for_each = local.domains
 
@@ -102,4 +103,76 @@ resource "cloudflare_dns_record" "dmarc" {
   content = "v=DMARC1; p=none; rua=mailto:dmarc@${each.value}; pct=100; adkim=s; aspf=s"
   type    = "TXT"
   ttl     = 3600
+}
+
+# Uncomment once ready to delete CF records
+# Update DKIM to filter only for "cu"
+# resource "cloudflare_dns_record" "dkim_cu" {
+#   for_each = { "cu" = local.domains["cu"] }
+
+#   zone_id = cloudflare_zone.this[each.key].id
+#   name    = "google._domainkey"
+#   content = data.pass_password.dkim_keys[each.key].password
+#   type    = "TXT"
+#   ttl     = 3600
+# }
+
+# # Update DMARC to filter only for "cu"
+# resource "cloudflare_dns_record" "dmarc_cu" {
+#   for_each = { "cu" = local.domains["cu"] }
+
+#   zone_id = cloudflare_zone.this[each.key].id
+#   name    = "_dmarc"
+#   content = "v=DMARC1; p=none; rua=mailto:dmarc@${each.value}; pct=100; adkim=s; aspf=s"
+#   type    = "TXT"
+#   ttl     = 3600
+# }
+
+resource "desec_rrset" "gmail_mx" {
+  for_each = local.desec_domains
+
+  domain  = desec_domain.this[each.key].name
+  subname = "@"
+  type    = "MX"
+  ttl     = 3600
+  rdata = [
+    "1 aspmx.l.google.com.",
+    "5 alt1.aspmx.l.google.com.",
+    "5 alt2.aspmx.l.google.com.",
+    "10 alt3.aspmx.l.google.com.",
+    "10 alt4.aspmx.l.google.com.",
+  ]
+}
+
+resource "desec_rrset" "gmail_spf" {
+  for_each = local.desec_domains
+
+  domain  = desec_domain.this[each.key].name
+  subname = "@"
+  type    = "TXT"
+  ttl     = 3600
+  rdata   = ["\"v=spf1 include:_spf.google.com ~all\""]
+}
+
+resource "desec_rrset" "dkim" {
+  for_each = local.desec_domains
+
+  domain  = desec_domain.this[each.key].name
+  subname = "google._domainkey"
+  type    = "TXT"
+  ttl     = 3600
+  # Max 255 chars
+  rdata = [
+    "\"${join("\" \"", regexall(".{1,255}", data.pass_password.dkim_keys[each.key].password))}\""
+  ]
+}
+
+resource "desec_rrset" "dmarc" {
+  for_each = local.desec_domains
+
+  domain  = desec_domain.this[each.key].name
+  subname = "_dmarc"
+  type    = "TXT"
+  ttl     = 3600
+  rdata   = ["\"v=DMARC1; p=none; rua=mailto:dmarc@${local.desec_domains[each.key]}; pct=100; adkim=s; aspf=s\""]
 }
