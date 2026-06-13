@@ -48,16 +48,33 @@ data "pass_password" "domains" {
   path = "terraform/domain_map"
 }
 
+data "external" "webgw_addresses" {
+  program = ["${path.module}/ansible-inventory.sh"]
+  query = {
+    host  = "webgw01"
+    query = "{\"a\": .vault_ansible_host, \"aaaa\": .vault_ansible_host6}"
+  }
+}
+
+data "external" "webgw_pip_v6" {
+  program = ["${path.module}/ansible-inventory.sh"]
+  query = {
+    host  = "webgw01"
+    query = ".vault_pip_v6_map"
+  }
+}
+
 locals {
   desec_keys = ["hb", "dv", "ti"]
   desec_domains = {
     for k, v in local.domains : k => v if contains(local.desec_keys, k)
   }
-  domains      = jsondecode(data.pass_password.domains.full)
-  webgw        = format("webgw01.%s", local.domains["hb"])
-  webgw_docker = cloudflare_dns_record.webgw_pip_v6["docker"].name
-  webgw_gitlab = cloudflare_dns_record.webgw_pip_v6["gitlab"].name
-  webgw_nginx  = cloudflare_dns_record.webgw_pip_v6["nginx"].name
+  cf_keys = ["cu"]
+  cf_domains = {
+    for k, v in local.domains : k => v if contains(local.cf_keys, k)
+  }
+  domains = jsondecode(data.pass_password.domains.full)
+  webgw   = format("webgw01.%s", local.domains["hb"])
   webgw_records = {
     gitlab = {
       "A"    = data.external.webgw_addresses.result.a
@@ -75,20 +92,12 @@ locals {
 }
 
 resource "cloudflare_zone" "this" {
-  for_each = local.domains
+  for_each = local.cf_domains
 
   name = each.value
   account = {
     id = var.cf_account_id
   }
-}
-
-resource "cloudflare_dns_record" "ha_ti" {
-  zone_id = cloudflare_zone.this["ti"].id
-  name    = "ha"
-  content = "10.1.0.48"
-  type    = "A"
-  ttl     = 300
 }
 
 resource "desec_rrset" "ha_ti" {
@@ -97,20 +106,6 @@ resource "desec_rrset" "ha_ti" {
   rdata   = ["10.1.0.48"]
   type    = "A"
   ttl     = 3600
-}
-
-resource "cloudflare_dns_record" "webgw_dv" {
-  for_each = toset([
-    "cloud",
-    "www",
-    local.domains["dv"],
-  ])
-
-  zone_id = cloudflare_zone.this["dv"].id
-  name    = each.key
-  content = local.webgw_nginx
-  type    = "CNAME"
-  ttl     = 300
 }
 
 resource "desec_rrset" "webgw_dv_all" {
@@ -142,49 +137,12 @@ resource "desec_rrset" "webgw_dv_all" {
   rdata   = [each.value.ip]
 }
 
-resource "cloudflare_dns_record" "webgw_gitlab" {
-  for_each = toset([
-    "gitlab",
-    "registry",
-  ])
-
-  zone_id = cloudflare_zone.this["dv"].id
-  name    = each.key
-  content = local.webgw_gitlab
-  type    = "CNAME"
-  ttl     = 300
-}
-
-resource "cloudflare_dns_record" "webgw_docker" {
-  for_each = toset([
-    "abs",
-    "dawarich",
-    "immich",
-    "jellyfin",
-    "plex",
-  ])
-
-  zone_id = cloudflare_zone.this["dv"].id
-  name    = each.key
-  content = local.webgw_docker
-  type    = "CNAME"
-  ttl     = 300
-}
-
 data "external" "webgw_wg" {
   program = ["${path.module}/ansible-inventory.sh"]
   query = {
     host  = "webgw01"
     query = "{\"value\": .wireguard_ip}"
   }
-}
-
-resource "cloudflare_dns_record" "smtp" {
-  zone_id = cloudflare_zone.this["hb"].id
-  name    = "smtp"
-  content = data.external.webgw_wg.result.value
-  type    = "A"
-  ttl     = 3600
 }
 
 resource "desec_rrset" "smtp" {

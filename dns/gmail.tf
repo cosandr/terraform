@@ -50,42 +50,8 @@ resource "cloudflare_dns_record" "gmail_cu" {
   priority = lookup(each.value, "priority", null)
 }
 
-resource "cloudflare_dns_record" "gmail_dv" {
-  for_each = local.gmail_records
-
-  zone_id  = cloudflare_zone.this["dv"].id
-  name     = lookup(each.value, "name", local.domains["dv"])
-  content  = each.value["value"]
-  type     = each.value["type"]
-  ttl      = lookup(each.value, "ttl", 3600)
-  priority = lookup(each.value, "priority", null)
-}
-
-resource "cloudflare_dns_record" "gmail_ti" {
-  for_each = local.gmail_records
-
-  zone_id  = cloudflare_zone.this["ti"].id
-  name     = lookup(each.value, "name", local.domains["ti"])
-  content  = each.value["value"]
-  type     = each.value["type"]
-  ttl      = lookup(each.value, "ttl", 3600)
-  priority = lookup(each.value, "priority", null)
-}
-
-resource "cloudflare_dns_record" "gmail_hb" {
-  for_each = local.gmail_records
-
-  zone_id  = cloudflare_zone.this["hb"].id
-  name     = lookup(each.value, "name", local.domains["hb"])
-  content  = each.value["value"]
-  type     = each.value["type"]
-  ttl      = lookup(each.value, "ttl", 3600)
-  priority = lookup(each.value, "priority", null)
-}
-
-# Keep while configuring both CF and deSEC
 resource "cloudflare_dns_record" "dkim" {
-  for_each = local.domains
+  for_each = local.cf_domains
 
   zone_id = cloudflare_zone.this[each.key].id
   name    = "google._domainkey"
@@ -95,38 +61,14 @@ resource "cloudflare_dns_record" "dkim" {
 }
 
 resource "cloudflare_dns_record" "dmarc" {
-  for_each = local.domains
+  for_each = local.cf_domains
 
   zone_id = cloudflare_zone.this[each.key].id
   name    = "_dmarc"
-  # https://support.google.com/a/answer/2466580?hl=en#zippy=%2Cdmarc-record-tag-definitions-and-values
   content = "v=DMARC1; p=none; rua=mailto:dmarc@${each.value}; pct=100; adkim=s; aspf=s"
   type    = "TXT"
   ttl     = 3600
 }
-
-# Uncomment once ready to delete CF records
-# Update DKIM to filter only for "cu"
-# resource "cloudflare_dns_record" "dkim_cu" {
-#   for_each = { "cu" = local.domains["cu"] }
-
-#   zone_id = cloudflare_zone.this[each.key].id
-#   name    = "google._domainkey"
-#   content = data.pass_password.dkim_keys[each.key].password
-#   type    = "TXT"
-#   ttl     = 3600
-# }
-
-# # Update DMARC to filter only for "cu"
-# resource "cloudflare_dns_record" "dmarc_cu" {
-#   for_each = { "cu" = local.domains["cu"] }
-
-#   zone_id = cloudflare_zone.this[each.key].id
-#   name    = "_dmarc"
-#   content = "v=DMARC1; p=none; rua=mailto:dmarc@${each.value}; pct=100; adkim=s; aspf=s"
-#   type    = "TXT"
-#   ttl     = 3600
-# }
 
 resource "desec_rrset" "gmail_mx" {
   for_each = local.desec_domains
