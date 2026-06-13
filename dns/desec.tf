@@ -36,7 +36,7 @@ resource "desec_token_policy" "lego_webgw" {
 
   token_id   = desec_token.this["lego_webgw"].id
   domain     = each.value.name
-  subname    = "_acme_challenge"
+  subname    = "_acme-challenge"
   type       = "TXT"
   perm_write = true
 
@@ -46,7 +46,7 @@ resource "desec_token_policy" "lego_webgw" {
 resource "desec_token_policy" "lego_ha" {
   token_id   = desec_token.this["lego_ha"].id
   domain     = local.domains["hb"]
-  subname    = "_acme_challenge.ha"
+  subname    = "_acme-challenge.ha"
   type       = "TXT"
   perm_write = true
 
@@ -56,7 +56,7 @@ resource "desec_token_policy" "lego_ha" {
 resource "desec_token_policy" "lego_ha_ti" {
   token_id   = desec_token.this["lego_ha_ti"].id
   domain     = local.domains["ti"]
-  subname    = "_acme_challenge.ha"
+  subname    = "_acme-challenge.ha"
   type       = "TXT"
   perm_write = true
 
