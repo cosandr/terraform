@@ -74,7 +74,6 @@ locals {
     for k, v in local.domains : k => v if contains(local.cf_keys, k)
   }
   domains = jsondecode(data.pass_password.domains.full)
-  webgw   = format("webgw01.%s", local.domains["hb"])
   webgw_records = {
     gitlab = {
       "A"    = data.external.webgw_addresses.result.a
@@ -150,5 +149,15 @@ resource "desec_rrset" "smtp" {
   subname = "smtp"
   rdata   = [data.external.webgw_wg.result.value]
   type    = "A"
+  ttl     = 3600
+}
+
+resource "desec_rrset" "webgw" {
+  for_each = data.external.webgw_addresses.result
+
+  domain  = desec_domain.this["hb"].name
+  subname = "webgw"
+  rdata   = [each.value]
+  type    = upper(each.key)
   ttl     = 3600
 }
