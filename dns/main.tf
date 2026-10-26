@@ -113,7 +113,7 @@ resource "desec_rrset" "webgw_dv_all" {
       # Map your target groups to their respective subnames right here
       for target, subnames in {
         gitlab = ["gitlab", "registry"]
-        docker = ["abs", "dawarich", "immich", "jellyfin"]
+        docker = ["abs", "dawarich", "immich"]
         nginx  = ["@", "cloud", "www"]
         } : [
         for subname in subnames : [
