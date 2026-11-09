@@ -7,3 +7,8 @@ resource "hcloud_ssh_key" "laptop" {
   name       = "andrei@laptop"
   public_key = file("~/.local/share/chezmoi/private_dot_ssh/private_laptop_ed25519.pub")
 }
+
+resource "hcloud_ssh_key" "mac" {
+  name       = "andrei@mac"
+  public_key = file("~/.local/share/chezmoi/private_dot_ssh/private_mac_ed25519.pub")
+}

@@ -7,7 +7,7 @@ resource "hcloud_server" "cloudgw" {
   rebuild_protection       = true
   shutdown_before_deletion = true
 
-  ssh_keys = [hcloud_ssh_key.desktop.id, hcloud_ssh_key.laptop.id]
+  ssh_keys = [hcloud_ssh_key.desktop.id, hcloud_ssh_key.laptop.id, hcloud_ssh_key.mac.id]
 
   public_net {
     ipv4_enabled = true
