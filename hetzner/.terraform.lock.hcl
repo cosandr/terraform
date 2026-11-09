@@ -5,6 +5,7 @@ provider "registry.terraform.io/camptocamp/pass" {
   version     = "2.1.1"
   constraints = "~> 2.1"
   hashes = [
+    "h1:Cqqf55av0+tcfhXXYhZYEjJze4lR5mpV9JALW2cISD8=",
     "h1:b26FFbTyOIKCeqpAjnBzLZU1S9jU7XE9U+3+NOxtAq0=",
     "zh:2ec5926b48526bc23b99f26dd18138811f6b1f1f81125bce75e841020b58350c",
     "zh:32448b55d615ffc4924aab08c5fdea57102cc0f2752003e81367e7d05d42ce9a",
@@ -24,6 +25,7 @@ provider "registry.terraform.io/hetznercloud/hcloud" {
   version     = "1.47.0"
   constraints = "~> 1.45"
   hashes = [
+    "h1:KQbtq1sXF4deoc0DKgjyyJMdIuHfhfhAPkVV0DlTMRI=",
     "h1:aqEPcSpaWhKqbMs7c7Pf5ot6Tye7ntRitWsuNGPRPfk=",
     "zh:0759f0c23d0e59baab3382320eef4eb314e0c5967b6ef67ff07135da07a97b34",
     "zh:0e9ca84c4059d6d7e2c9f13d3c2b1cd91f7d9a47bedcb4b80c7c77d536eff887",

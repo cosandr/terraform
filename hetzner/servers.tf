@@ -1,8 +1,7 @@
-resource "hcloud_server" "webgw01" {
-  name        = "webgw01"
+resource "hcloud_server" "cloudgw" {
+  name        = "cloudgw"
   image       = "rocky-9"
   server_type = "cax11"
-  location    = "hel1"
 
   delete_protection        = true
   rebuild_protection       = true
@@ -12,14 +11,14 @@ resource "hcloud_server" "webgw01" {
 
   public_net {
     ipv4_enabled = true
-    ipv4         = hcloud_primary_ip.webgw["ipv4"].id
+    ipv4         = hcloud_primary_ip.cloudgw["ipv4"].id
     ipv6_enabled = true
-    ipv6         = hcloud_primary_ip.webgw["ipv6"].id
+    ipv6         = hcloud_primary_ip.cloudgw["ipv6"].id
   }
 
   network {
     network_id = hcloud_network.this.id
-    ip         = cidrhost(hcloud_network_subnet.webgw.ip_range, 2)
+    ip         = cidrhost(hcloud_network_subnet.cloudgw.ip_range, 2)
     alias_ips  = []
   }
 

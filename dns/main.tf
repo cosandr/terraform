@@ -48,18 +48,18 @@ data "pass_password" "domains" {
   path = "terraform/domain_map"
 }
 
-data "external" "webgw_addresses" {
+data "external" "cloudgw_addresses" {
   program = ["${path.module}/ansible-inventory.sh"]
   query = {
-    host  = "webgw01"
+    host  = "cloudgw"
     query = "{\"a\": .vault_ansible_host, \"aaaa\": .vault_ansible_host6}"
   }
 }
 
-data "external" "webgw_pip_v6" {
+data "external" "cloudgw_pip_v6" {
   program = ["${path.module}/ansible-inventory.sh"]
   query = {
-    host  = "webgw01"
+    host  = "cloudgw"
     query = ".vault_pip_v6_map"
   }
 }
@@ -74,18 +74,18 @@ locals {
     for k, v in local.domains : k => v if contains(local.cf_keys, k)
   }
   domains = jsondecode(data.pass_password.domains.full)
-  webgw_records = {
+  cloudgw_records = {
     gitlab = {
-      "A"    = data.external.webgw_addresses.result.a
-      "AAAA" = data.external.webgw_pip_v6.result["gitlab"]
+      "A"    = data.external.cloudgw_addresses.result.a
+      "AAAA" = data.external.cloudgw_pip_v6.result["gitlab"]
     }
     docker = {
-      "A"    = data.external.webgw_addresses.result.a
-      "AAAA" = data.external.webgw_pip_v6.result["docker"]
+      "A"    = data.external.cloudgw_addresses.result.a
+      "AAAA" = data.external.cloudgw_pip_v6.result["docker"]
     }
     nginx = {
-      "A"    = data.external.webgw_addresses.result.a
-      "AAAA" = data.external.webgw_pip_v6.result["nginx"]
+      "A"    = data.external.cloudgw_addresses.result.a
+      "AAAA" = data.external.cloudgw_pip_v6.result["nginx"]
     }
   }
 }
@@ -107,7 +107,7 @@ resource "desec_rrset" "ha_ti" {
   ttl     = 3600
 }
 
-resource "desec_rrset" "webgw_dv_all" {
+resource "desec_rrset" "cloudgw_dv_all" {
   for_each = {
     for record in flatten([
       # Map your target groups to their respective subnames right here
@@ -118,7 +118,7 @@ resource "desec_rrset" "webgw_dv_all" {
         } : [
         for subname in subnames : [
           # Look up the IPs dynamically based on the current target
-          for type, ip in local.webgw_records[target] : {
+          for type, ip in local.cloudgw_records[target] : {
             key     = "${subname}-${type}"
             subname = subname
             type    = type
@@ -136,10 +136,10 @@ resource "desec_rrset" "webgw_dv_all" {
   rdata   = [each.value.ip]
 }
 
-data "external" "webgw_wg" {
+data "external" "cloudgw_wg" {
   program = ["${path.module}/ansible-inventory.sh"]
   query = {
-    host  = "webgw01"
+    host  = "cloudgw"
     query = "{\"value\": .wireguard_ip}"
   }
 }
@@ -147,16 +147,16 @@ data "external" "webgw_wg" {
 resource "desec_rrset" "smtp" {
   domain  = desec_domain.this["hb"].name
   subname = "smtp"
-  rdata   = [data.external.webgw_wg.result.value]
+  rdata   = [data.external.cloudgw_wg.result.value]
   type    = "A"
   ttl     = 3600
 }
 
-resource "desec_rrset" "webgw" {
-  for_each = data.external.webgw_addresses.result
+resource "desec_rrset" "cloudgw" {
+  for_each = data.external.cloudgw_addresses.result
 
   domain  = desec_domain.this["hb"].name
-  subname = "webgw"
+  subname = "cloudgw"
   rdata   = [each.value]
   type    = upper(each.key)
   ttl     = 3600
