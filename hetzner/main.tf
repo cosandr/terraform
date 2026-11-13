@@ -64,7 +64,7 @@ resource "hcloud_primary_ip" "cloudgw" {
 
 resource "hcloud_server" "cloudgw" {
   name        = "cloudgw"
-  image       = "rocky-9"
+  image       = "debian-13"
   server_type = "cax11"
 
   delete_protection        = true
